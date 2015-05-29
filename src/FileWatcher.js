@@ -27,19 +27,25 @@ function FileWatcher(config, emitter) {
     _fsWatcher = new FSWatcher(_config.options);
   })();
 
-  (function _eventness() {
-    _emitter.on(EventType.EVENT_SERVICE_START, onEmitterStart)
-    _emitter.on(EventType.EVENT_SERVICE_STOP, onEmitterStop)
-  })();
+  /**
+   * Если использовать такой подход, что каждый класс сам подписывается
+   * на события, то логика событийной последовательности будет размазана
+   * по многим классам. Намного лучше, еали она будет сосредоточена в одном
+   * месте. См. object/index.js
+   */
+  //(function _eventness() {
+  //  _emitter.on(EventType.EVENT_SERVICE_START, onEmitterStart)
+  //  _emitter.on(EventType.EVENT_SERVICE_STOP, onEmitterStop)
+  //})();
 
-  function onEmitterStart() {
+  _this.onEmitterStart = function () {
     _fsWatcher.add(_config.path);
     _fsWatcher.on('add', onFileAdded);
-  }
+  };
 
-  function onEmitterStop() {
+  _this.onEmitterStop = function () {
     _fsWatcher.unwatch(_config.path);
-  }
+  };
 
   /**
    * @param {String} localPath
