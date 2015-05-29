@@ -21,26 +21,36 @@ function LimitedQueue(config, emitter) {
   var _emitter = emitter;
 
   /** @type {tasks-queue.TaskQueue} */
-  var _taskQueue = null;
+  var _taskQueue = new TaskQueue();
 
+  /**
+   * Выполняет только инициализацию зависимостей.
+   */
   (function _initialize() {
-    _taskQueue = new TaskQueue();
+    //_config = config;
+    //_emitter = emitter;
+    //_taskQueue = new TaskQueue();
     _taskQueue.setMinTime(50);
     _taskQueue.noautostop();
     _taskQueue.execute();
-    _emitter.on(EventType.FSWATCER_FILE_ADDED, onFileAdded);
+  })();
+
+  /**
+   * Выполняет настройку внутренних событий.
+   */
+  (function _eventness() {
     _taskQueue.on('file:added', onQueueHandler)
   })();
 
   /**
    * @param {{localPath: String, fileStats: fs.Stats}} context
    */
-  function onFileAdded(context) {
+  _this.onFsFileAdded = function (context) {
     queue.pushTask('file:added', {
       'localPath': context.localPath,
       'fileStats': context.fileStats
     })
-  }
+  };
 
   function onQueueHandler(jinn, context) {
     _emitter.emit(EventType.QUEUE_FILE_ADDED, context);
