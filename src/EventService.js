@@ -16,11 +16,11 @@ function EventService() {
   //})();
 
   _this.start = function () {
-
+    // генерирует событие EventType.SERVICE_START
   };
 
   _this.stop = function () {
-
+    // генерирует событие EventType.SERVICE_STOP
   };
 
   _this.reset = function () {
