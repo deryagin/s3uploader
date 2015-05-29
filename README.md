@@ -51,7 +51,8 @@ eventService.on(EventType.QUEUE_FILE_ADDED, s3Client.onQueueFileAdded);
  * @todo: имена событий не должны быть привязаны к реализации.
  * Так событие EventType.FSWATCER_FILE_ADDED отражает тот факт,
  * что файл был добавлен в ФС. Хотя файл может появляться не в ФС,
- * а напр. в БД или на FTP итп.
+ * а напр. в БД или на FTP итп. Лучше было бы назвать например
+ * EventType.EMERGED_FILE.
  */
 eventService.on(EventType.EVENT_SERVICE_START, fileWatcher.startWatching);
 eventService.on(EventType.FSWATCER_FILE_ADDED, limitedQueue.addFileToQueue);

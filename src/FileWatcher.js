@@ -36,7 +36,7 @@ function FileWatcher(config, emitter) {
    * @fires EventType.FSWATCER_FILE_ADDED
    */
   function onFileAdded(localPath, fileStats) {
-    _emitter.emit(EventType.FSWATCER_FILE_ADDED, {
+    _emitter.emit(EventType.EMERGED_FILE, {
       'localPath': localPath,
       'fileStats': fileStats
     });

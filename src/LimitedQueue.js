@@ -58,7 +58,7 @@ function LimitedQueue(config, emitter) {
   };
 
   function onQueueHandler(jinn, context) {
-    _emitter.emit(EventType.QUEUE_FILE_ADDED, context);
+    _emitter.emit(EventType.PROCESS_FILE, context);
     // todo: jinn нужно гдето запомнить, возможно засунуть его в context
     // и когда это событие будет обработано в S3Store, то сгенерировать
     // новое событие S3STORE_FILE_SAVED и передать context обратно.

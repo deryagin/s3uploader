@@ -21,11 +21,12 @@ function Application(config) {
   var _s3Client = new S3Client(_config, _eventService);
 
   (function _eventness() {
-    _eventService.on(EventType.EVENT_SERVICE_START, _fileWatcher.startWatching);
-    _eventService.on(EventType.FSWATCER_FILE_ADDED, _limitedQueue.addFileToQueue);
-    _eventService.on(EventType.QUEUE_FILE_ADDED, _s3Client.sendToStore);
-    _eventService.on(EventType.S3CLIENT_FILE_SAVED, _limitedQueue.continueProcessing);
-    _eventService.on(EventType.EVENT_SERVICE_STOP, _fileWatcher.onEmitterStop);
+    _eventService.on(EventType.SERVICE_START, _fileWatcher.startWatching);
+    _eventService.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
+    _eventService.on(EventType.PROCESS_FILE, _s3Client.sendToStore);
+    _eventService.on(EventType.MOVE_SUCCEED, _limitedQueue.continueProcessing);
+    _eventService.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
+    _eventService.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
   })();
 
   _this.start = function () {

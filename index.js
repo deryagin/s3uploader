@@ -15,16 +15,10 @@ var fileWatcher = new FileWatcher(config, eventService);
 var limitedQueue = new LimitedQueue(config, eventService);
 var s3Client = new S3Client(config, eventService);
 
-/**
- * @todo: имена событий не должны быть привязаны к реализации.
- * Так событие EventType.FSWATCER_FILE_ADDED отражает тот факт,
- * что файл был добавлен в ФС. Хотя файл может появляться не в ФС,
- * а напр. в БД или на FTP итп.
- */
-eventService.on(EventType.EVENT_SERVICE_START, fileWatcher.startWatching);
-eventService.on(EventType.FSWATCER_FILE_ADDED, limitedQueue.addFileToQueue);
-eventService.on(EventType.QUEUE_FILE_ADDED, s3Client.sendToStore);
-eventService.on(EventType.S3CLIENT_FILE_SAVED, limitedQueue.continueProcessing);
-eventService.on(EventType.S3CLIENT_FILE_FAIL, limitedQueue.slowDownProcessing);
-eventService.on(EventType.EVENT_SERVICE_STOP, fileWatcher.stopWatching);
+eventService.on(EventType.SERVICE_START, fileWatcher.startWatching);
+eventService.on(EventType.EMERGED_FILE, limitedQueue.addFileToQueue);
+eventService.on(EventType.PROCESS_FILE, s3Client.sendToStore);
+eventService.on(EventType.MOVE_SUCCEED, limitedQueue.continueProcessing);
+eventService.on(EventType.MOVE_FAILING, limitedQueue.slowDownProcessing);
+eventService.on(EventType.SERVICE_STOP, fileWatcher.stopWatching);
 eventService.start();
