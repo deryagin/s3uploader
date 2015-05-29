@@ -1,15 +1,27 @@
 var inherits = require('util').inherits;
 var EventEmitter = require('events').EventEmitter;
 
-module.exports = Emitter;
+module.exports = EventEmitter;
 
-inherits(Emitter, EventEmitter);
+inherits(EventEmitter, EventEmitter);
 
-function Emitter() {
+function EventEmitter() {
 
   var _this = this;
 
   (function _initialize() {
     EventEmitter.call(_this);
   })();
+
+  _this.start = function () {
+
+  };
+
+  _this.pause = function () {
+
+  };
+
+  _this.stop = function () {
+
+  };
 }
