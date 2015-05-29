@@ -13,30 +13,13 @@ function FileWatcher(config, emitter) {
   var _this = this;
 
   /** @type {config} */
-  var _config = null;
+  var _config = config;
 
   /** @type {events.EventEmitter} */
-  var _emitter = null;
+  var _emitter = emitter;
 
   /** @type {chokidar.FSWatcher} */
-  var _fsWatcher = null;
-
-  (function _initialize() {
-    _config = config;
-    _emitter = emitter;
-    _fsWatcher = new FSWatcher(_config.options);
-  })();
-
-  /**
-   * Если использовать такой подход, что каждый класс сам подписывается
-   * на события, то логика событийной последовательности будет размазана
-   * по многим классам. Намного лучше, еали она будет сосредоточена в одном
-   * месте. См. object/index.js
-   */
-  //(function _eventness() {
-  //  _emitter.on(EventType.EVENT_SERVICE_START, onEmitterStart)
-  //  _emitter.on(EventType.EVENT_SERVICE_STOP, onEmitterStop)
-  //})();
+  var _fsWatcher = new FSWatcher(_config.options);
 
   _this.onEmitterStart = function () {
     _fsWatcher.add(_config.path);

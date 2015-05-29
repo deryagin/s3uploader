@@ -27,10 +27,7 @@ function LimitedQueue(config, emitter) {
    * Выполняет только инициализацию зависимостей.
    */
   (function _initialize() {
-    //_config = config;
-    //_emitter = emitter;
-    //_taskQueue = new TaskQueue();
-    _taskQueue.setMinTime(50);
+    _taskQueue.setMinTime(_config.defaultInterval);
     _taskQueue.noautostop();
     _taskQueue.execute();
   })();

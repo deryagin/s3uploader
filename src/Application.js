@@ -20,13 +20,6 @@ function Application(config) {
 
   var _s3Client = new S3Client(_config, _eventService);
 
-  //(function _initialize() {
-  //  _eventService = new EventService();
-  //  _fileWatcher = new FileWatcher(_config, _eventService);
-  //  _limitedQueue = new LimitedQueue(_config, _eventService);
-  //  _s3Client = new S3Client(_config, _eventService);
-  //})();
-
   (function _eventness() {
     _eventService.on(EventType.EVENT_SERVICE_START, _fileWatcher.onEmitterStart);
     _eventService.on(EventType.FSWATCER_FILE_ADDED, _limitedQueue.onFsFileAdded);

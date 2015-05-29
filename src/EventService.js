@@ -9,12 +9,11 @@ function EventService() {
 
   var _this = this;
 
-  var _emitter = null;
+  var _emitter = new EventEmitter();
 
-  (function _initialize() {
-    //EventEmitter.call(_this);
-    _emitter = new EventEmitter();
-  })();
+  //(function _initialize() {
+  //  EventEmitter.call(_this);
+  //})();
 
   _this.start = function () {
 
