@@ -21,12 +21,12 @@ function FileWatcher(config, emitter) {
   /** @type {chokidar.FSWatcher} */
   var _fsWatcher = new FSWatcher(_config.options);
 
-  _this.onEmitterStart = function () {
+  _this.startWatching = function () {
     _fsWatcher.add(_config.path);
     _fsWatcher.on('add', onFileAdded);
   };
 
-  _this.onEmitterStop = function () {
+  _this.stopWatching = function () {
     _fsWatcher.unwatch(_config.path);
   };
 

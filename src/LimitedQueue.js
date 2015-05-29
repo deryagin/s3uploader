@@ -42,14 +42,18 @@ function LimitedQueue(config, emitter) {
   /**
    * @param {{localPath: String, fileStats: fs.Stats}} context
    */
-  _this.onFsFileAdded = function (context) {
+  _this.addFileToQueue = function (context) {
     queue.pushTask('file:added', {
       'localPath': context.localPath,
       'fileStats': context.fileStats
     })
   };
 
-  _this.onS3FileSaved = function () {
+  _this.continueProcessing = function () {
+    // здесь будет логика работы с jinn()
+  };
+
+  _this.slowDownProcessing = function () {
 
   };
 

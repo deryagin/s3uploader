@@ -16,16 +16,15 @@ var limitedQueue = new LimitedQueue(config, eventService);
 var s3Client = new S3Client(config, eventService);
 
 /**
- * @todo: S3Client пофиг откуда взялся файл.
- * Поэтому нужно переименовать метод s3Client.onQueueFileAdded во
- * что-то типа s3Client.moveToStore. Тоже относится и к именам других
- * методов. Имена должны отражать не то, что метод стабатывает при
- * возникновении определенногоо события, а то, что этот метод выполняет.
- * Тем более, что какой-то метод может вызываться для нескольких событий.
+ * @todo: имена событий не должны быть привязаны к реализации.
+ * Так событие EventType.FSWATCER_FILE_ADDED отражает тот факт,
+ * что файл был добавлен в ФС. Хотя файл может появляться не в ФС,
+ * а напр. в БД или на FTP итп.
  */
-eventService.on(EventType.EVENT_SERVICE_START, fileWatcher.onEmitterStart);
-eventService.on(EventType.FSWATCER_FILE_ADDED, limitedQueue.onFsFileAdded);
-eventService.on(EventType.QUEUE_FILE_ADDED, s3Client.onQueueFileAdded);
-eventService.on(EventType.S3CLIENT_FILE_SAVED, limitedQueue.onS3FileSaved);
-eventService.on(EventType.EVENT_SERVICE_STOP, fileWatcher.onEmitterStop);
+eventService.on(EventType.EVENT_SERVICE_START, fileWatcher.startWatching);
+eventService.on(EventType.FSWATCER_FILE_ADDED, limitedQueue.addFileToQueue);
+eventService.on(EventType.QUEUE_FILE_ADDED, s3Client.sendToStore);
+eventService.on(EventType.S3CLIENT_FILE_SAVED, limitedQueue.continueProcessing);
+eventService.on(EventType.S3CLIENT_FILE_FAIL, limitedQueue.slowDownProcessing);
+eventService.on(EventType.EVENT_SERVICE_STOP, fileWatcher.stopWatching);
 eventService.start();

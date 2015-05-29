@@ -4,7 +4,7 @@ function S3Client() {
 
   var _this = this;
 
-  _this.onQueueFileAdded = function () {
+  _this.sendToStore = function () {
 
   };
 }
