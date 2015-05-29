@@ -1,32 +1,45 @@
-var inherits = require('util').inherits;
-var chokidar = require('chokidar');
-var config = require('./config');
 var EventType = require('EventType');
+var FSWatcher = require('chokidar').FSWatcher;
 
-module.exports = FsWatcher;
+module.exports = FileWatcher;
 
 /**
  * @todo избавиться от multiple definitions для config
  * @param {config} config
  * @param {events.EventEmitter} emitter
  */
-function FsWatcher(config, emitter) {
+function FileWatcher(config, emitter) {
 
   var _this = this;
 
   /** @type {config} */
-  var _config = config;
+  var _config = null;
 
   /** @type {events.EventEmitter} */
-  var _emitter = emitter;
+  var _emitter = null;
 
   /** @type {chokidar.FSWatcher} */
-  var _chokidar = null;
+  var _fsWatcher = null;
 
   (function _initialize() {
-    _chokidar = chokidar.watch(_config.path, _config.options);
-    _chokidar.on('add', onFileAdded);
+    _config = config;
+    _emitter = emitter;
+    _fsWatcher = new FSWatcher(_config.options);
   })();
+
+  (function _eventness() {
+    _emitter.on(EventType.EVENT_SERVICE_START, onEmitterStart)
+    _emitter.on(EventType.EVENT_SERVICE_STOP, onEmitterStop)
+  })();
+
+  function onEmitterStart() {
+    _fsWatcher.add(_config.path);
+    _fsWatcher.on('add', onFileAdded);
+  }
+
+  function onEmitterStop() {
+    _fsWatcher.unwatch(_config.path);
+  }
 
   /**
    * @param {String} localPath
