@@ -1,15 +1,14 @@
-process.chdir(__dirname);
-global.CWD = process.cwd() + '/';
+//process.chdir(__dirname);
+global.s3uploader = {};
+global.s3uploader.ROOT_DIR = __dirname + '/';
 
 /**
- * process.cwd() вынести в global.CWD. Хотя, конечно, CWD лучше
- * в глобал не пихать. А то вдруг какая-либо либа его затрет.
  * Попробывать поиграться с provess.paths и require.resolve()
  * Попробывать убрать node_modules с глаз долой из корня проекта
  * напр. в lib/node_modules.
  */
-var config = require(CWD + 'config');
-var Application = require(CWD + 'src/Application');
+var config = require(s3uploader.ROOT_DIR + 'config');
+var Application = require(s3uploader.ROOT_DIR + 'src/Application');
 
 var application = new Application(config);
 application.start();

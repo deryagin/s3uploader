@@ -56,3 +56,17 @@ eventService.on(EventType.QUEUE_FILE_ADDED, s3Client.onQueueFileAdded);
  */
 eventService.on(EventType.EVENT_SERVICE_START, fileWatcher.startWatching);
 eventService.on(EventType.FSWATCER_FILE_ADDED, limitedQueue.addFileToQueue);
+
+/**
+ * process.cwd() вынести в global.CWD. Хотя, конечно, CWD лучше
+ * в глобал не пихать. А то вдруг какая-либо либа его затрет.
+ * Чтобы этого не произошло, можно для каждого проекта создавать
+ * один объект в global. И все остальные глобальные для данного
+ * проекта переменные помещать в этот объект. Аля Module Pattern.
+ * Например,
+ * global.s3uploader = {};
+ * global.s3uploader.ROOT_DIR = __dirname + '/';
+ * Если для всех путей использовать префикс s3uploader.ROOT_DIR,
+ * то process.chdir() делать не обязательно.
+ */
+
