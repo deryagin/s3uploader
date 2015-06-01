@@ -1,6 +1,5 @@
 var EventType = require('EventType');
 var TaskQueue = require('tasks-queue');
-var config = require('./config');
 
 module.exports = LimitedQueue;
 

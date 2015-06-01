@@ -6,6 +6,11 @@ var EventService = require('./EventService');
 
 module.exports = Application;
 
+/**
+ * Гипотетически, зависимости можно помещать в this._depName.
+ * Тогда их будет легче мокать в тестах. А о том, что зависимость
+ * приватная будет говорить символ подчеркивания вначале имени??
+ */
 function Application(config) {
 
   var _this = this;

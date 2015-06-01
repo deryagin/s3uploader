@@ -1,3 +1,5 @@
+// todo: добавить тесты
+
 //process.chdir(__dirname);
 global.s3uploader = {};
 global.s3uploader.ROOT_DIR = __dirname + '/';

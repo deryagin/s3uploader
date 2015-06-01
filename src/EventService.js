@@ -1,29 +1,24 @@
-//var inherits = require('util').inherits;
+var inherits = require('util').inherits;
 var EventEmitter = require('events').EventEmitter;
+var EventType = require('./EventType');
 
 module.exports = EventService;
 
-//inherits(EventService, EventEmitter);
+inherits(EventService, EventEmitter);
 
 function EventService() {
 
   var _this = this;
 
-  var _emitter = new EventEmitter();
-
-  //(function _initialize() {
-  //  EventEmitter.call(_this);
-  //})();
+  (function _initialize() {
+    EventEmitter.call(_this);
+  })();
 
   _this.start = function () {
-    // генерирует событие EventType.SERVICE_START
+    _this.emit(EventType.SERVICE_START);
   };
 
   _this.stop = function () {
-    // генерирует событие EventType.SERVICE_STOP
-  };
-
-  _this.reset = function () {
-
+    _this.emit(EventType.SERVICE_STOP);
   };
 }

@@ -70,3 +70,9 @@ eventService.on(EventType.FSWATCER_FILE_ADDED, limitedQueue.addFileToQueue);
  * то process.chdir() делать не обязательно.
  */
 
+При наследовании метод ParentClass.call(this) нужно помещать в
+_initialize(), чтобы он не балтался в воздухе:
+  (function _initialize() {
+    EventEmitter.call(_this);
+  })();
+
