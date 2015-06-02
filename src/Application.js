@@ -1,8 +1,8 @@
-var EventType = require('./EventType');
-var FileWatcher = require('./FileWatcher');
-var LimitedQueue = require('./LimitedQueue');
-var S3Client = require('./S3Client');
-var EventService = require('./EventService');
+var EventType = require(s3uploader.ROOT_DIR + 'EventType');
+var FileWatcher = require(s3uploader.ROOT_DIR + 'FileWatcher');
+var LimitedQueue = require(s3uploader.ROOT_DIR + 'LimitedQueue');
+var S3Client = require(s3uploader.ROOT_DIR + 'S3Client');
+var EventService = require(s3uploader.ROOT_DIR + 'EventService');
 
 module.exports = Application;
 
@@ -10,15 +10,13 @@ function Application(config) {
 
   var _this = this;
 
-  var _config = config;
-
   var _eventService = new EventService();
 
-  var _fileWatcher = new FileWatcher(_config, _eventService);
+  var _fileWatcher = new FileWatcher(config.chokidar, _eventService);
 
-  var _limitedQueue = new LimitedQueue(_config, _eventService);
+  var _limitedQueue = new LimitedQueue(config.tasks_queue, _eventService);
 
-  var _s3Client = new S3Client(_config, _eventService);
+  var _s3Client = new S3Client(config.knox, _eventService);
 
   (function _eventness() {
     _eventService.on(EventType.SERVICE_START, _fileWatcher.startWatching);
