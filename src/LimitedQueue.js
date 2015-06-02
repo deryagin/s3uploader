@@ -1,4 +1,4 @@
-var EventType = require('EventType');
+var EventType = require('./EventType');
 var TaskQueue = require('tasks-queue');
 
 module.exports = LimitedQueue;

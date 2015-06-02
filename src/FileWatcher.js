@@ -1,4 +1,4 @@
-var EventType = require('EventType');
+var EventType = require('./EventType');
 var FSWatcher = require('chokidar').FSWatcher;
 
 module.exports = FileWatcher;
