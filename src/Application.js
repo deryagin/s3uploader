@@ -3,6 +3,7 @@ var FileWatcher = require(s3uploader.ROOT_DIR + 'FileWatcher');
 var LimitedQueue = require(s3uploader.ROOT_DIR + 'LimitedQueue');
 var S3Client = require(s3uploader.ROOT_DIR + 'S3Client');
 var EventService = require(s3uploader.ROOT_DIR + 'EventService');
+var S3UploaderLogger = require(s3uploader.ROOT_DIR + 'S3UploaderLogger');
 
 module.exports = Application;
 
@@ -18,6 +19,8 @@ function Application(config) {
 
   var _s3Client = new S3Client(config.knox, _eventService);
 
+  var _logger = new S3UploaderLogger();
+
   (function _eventness() {
     _eventService.on(EventType.SERVICE_START, _fileWatcher.startWatching);
     _eventService.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
@@ -25,6 +28,10 @@ function Application(config) {
     _eventService.on(EventType.MOVE_SUCCEED, _limitedQueue.continueProcessing);
     _eventService.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
     _eventService.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
+
+    // вызуально отделяем логирование от основного потока событий
+    _eventService.on(EventType.MOVE_SUCCEED, _logger.logSuccess);
+    _eventService.on(EventType.MOVE_FAILING, _logger.logError);
   })();
 
   _this.start = function () {

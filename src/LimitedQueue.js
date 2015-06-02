@@ -16,7 +16,7 @@ function LimitedQueue(config, emitter) {
   /** @type {tasks-queue.TaskQueue} */
   var _taskQueue = new TaskQueue();
 
-  /** @type {Jinn} - вызов jinn.done() указывает на завершение обработки очередного события */
+  /** @type {Jinn} - вызов jinn.done() указывает на завершение обработки очередного события https://github.com/tutukin/tasks-queue */
   var _jinn = null;
 
   var FILE_ADDED_EVENT = 'file:added';
@@ -42,11 +42,6 @@ function LimitedQueue(config, emitter) {
   };
 
   _this.continueProcessing = function () {
-
-    // todo: Этих двух строк тут быть не должно. Логирование вообще должно быть отдельно!
-    fs.unlink(localPath);
-    console.log('%s SUCCESS: %s -> %s', new Date().toISOString(), path.basename(localPath), s3StoreRequest.url);
-
     // если все ок, то сбрасываем интервал ожидания обработки
     // следующего события и завершает его обработку вызовом _jinn.done()
     _taskQueue.setMinTime(config.defaultInterval);
@@ -58,14 +53,10 @@ function LimitedQueue(config, emitter) {
     // если ошибка, добавляем таск в конец очереди,
     // чтобы снова попытаться отправить файл в S3
     // и увеличиваем интервал между попытками
-    var retryInterval = calcRetryInterval;
+    slowDownTaskQueue();
     _taskQueue.pushTask('file:added', fileInfo);
-    _taskQueue.setMinTime(retryInterval);
     _jinn.done();
     _jinn = null;
-
-    // todo: Логирования тут быть не должно! Для этого есть события.
-    console.error('%s ERROR: %s -> %s', new Date().toISOString(), path.basename(localPath), s3StoreRequest.url, errorMessage);
   };
 
   function fireProcessFileEvent(jinn, context) {
@@ -73,9 +64,10 @@ function LimitedQueue(config, emitter) {
     _jinn = jinn;
   }
 
-  function calcRetryInterval() {
+  function slowDownTaskQueue() {
     var retryInterval = config.intervalMultiplier * _taskQueue.getMinTime();
     var isOverInterval = config.maximumInterval < retryInterval;
-    return (isOverInterval ? config.maximumInterval : retryInterval);
+    retryInterval = (isOverInterval ? config.maximumInterval : retryInterval);
+    _taskQueue.setMinTime(retryInterval);
   }
 }

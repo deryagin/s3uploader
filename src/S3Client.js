@@ -7,4 +7,8 @@ function S3Client() {
   _this.sendToStore = function () {
 
   };
+
+  function removeLocalFile() {
+    fs.unlink(localPath);
+  }
 }
