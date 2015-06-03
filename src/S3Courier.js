@@ -1,28 +1,21 @@
+var fs = require('fs');
 var knox = require('knox');
 var EventType = require(s3uploader.ROOT_DIR + 'src/EventType');
 
-module.exports = S3Client;
+module.exports = S3Courier;
 
-function S3Client(config, emitter) {
+function S3Courier(config, emitter) {
 
   var _this = this;
 
-  var _s3Store = knox.createClient(config);
+  var _s3Client = knox.createClient(config);
 
-  (function _initialize() {
-
-  })();
-
-  (function _eventness() {
-
-  })();
-
-  _this.sendToStore = function (fileInfo) {
-    var s3FilePath = buildS3SrotePath(fileInfo.localPath);
-    var s3StoreRequest = createS3StoreRequest(s3FilePath, fileInfo.fileStats.size);
-    var s3ResponseHandler = createS3ResponseHandler(fileInfo.localPath, s3StoreRequest.url);
+  _this.moveToStore = function (context) {
+    var s3FilePath = buildS3SrotePath(context.localPath);
+    var s3StoreRequest = createS3StoreRequest(s3FilePath, context.fileStats.size);
+    var s3ResponseHandler = createS3ResponseHandler(context.localPath, s3StoreRequest.url);
     s3StoreRequest.on('response', s3ResponseHandler);
-    fs.createReadStream(fileInfo.localPath).pipe(s3StoreRequest);
+    fs.createReadStream(context.localPath).pipe(s3StoreRequest);
   };
 
   function buildS3SrotePath(filePath) {
@@ -38,40 +31,29 @@ function S3Client(config, emitter) {
     // заголовок будет добавляться в респонз при скачивании
     // файла из CEPH по прямому линку. Content-Disposition нужен,
     // чтобы файл (mp3) не открывался в браузере, а предлагал сохраниться.
-    return _s3Store.put(storePath, {
+    return _s3Client.put(storePath, {
       'Content-Length': fileSize,
       'Content-Type': 'audio/mpeg',
       'Content-Disposition': 'attachment; filename=' + path.basename(storePath)
     });
   }
 
-  function createS3ResponseHandler(localPath, s3StorePath) {
+  // todo: подумать, как избавиться от этого замыкания
+  function createS3ResponseHandler(localPath, s3Url) {
     return function (s3Response) {
       if (200 == s3Response.statusCode) {
-        raiseMoveSucceedEvent(localPath, s3StorePath);
+        emitter.emit(EventType.MOVE_SUCCEED, {
+          from: localPath,
+          to: s3Url
+        });
         return fs.unlink(localPath);
       }
 
-      raiseMoveFailingEvent(new Error('S3 request has returned not "200 OK" code!'), localPath, s3StorePath)
+      emitter.emit(EventType.MOVE_FAILING, {
+        from: localPath,
+        to: s3Url,
+        error: new Error('S3 request has returned not "200 OK" code!')
+      });
     };
-  }
-
-  function raiseMoveSucceedEvent(from, to) {
-    emitter.emit(EventType.MOVE_SUCCEED, {
-      from: from,
-      to: to
-    });
-  }
-
-  function raiseMoveFailingEvent(error, from, to) {
-    emitter.emit(EventType.MOVE_FAILING, {
-      from: from,
-      to: to,
-      error: error
-    });
-  }
-
-  function removeLocalFile() {
-    fs.unlink(localPath);
   }
 }

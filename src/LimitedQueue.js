@@ -54,7 +54,7 @@ function LimitedQueue(config, emitter) {
     // чтобы снова попытаться отправить файл в S3
     // и увеличиваем интервал между попытками
     slowDownTaskQueue();
-    _taskQueue.pushTask('file:added', fileInfo);
+    _taskQueue.pushTask('file:added', fileInfo); // todo: fileInfo нужно запоминать, чтобы потом здесь использовать!
     _jinn.done();
     _jinn = null;
   };
