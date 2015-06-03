@@ -19,7 +19,7 @@ function FileWatcher(config, emitter) {
 
   _this.startWatching = function () {
     _fsWatcher.add(config.path);
-    _fsWatcher.on('add', onFileAdded);
+    _fsWatcher.on('add', raiseEmergedFileEvent);
   };
 
   _this.stopWatching = function () {
@@ -31,7 +31,7 @@ function FileWatcher(config, emitter) {
    * @param {fs.Stats} fileStats
    * @fires EventType.FSWATCER_FILE_ADDED
    */
-  function onFileAdded(localPath, fileStats) {
+  function raiseEmergedFileEvent(localPath, fileStats) {
     emitter.emit(EventType.EMERGED_FILE, {
       'localPath': localPath,
       'fileStats': fileStats

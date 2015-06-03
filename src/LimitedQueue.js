@@ -28,7 +28,7 @@ function LimitedQueue(config, emitter) {
   })();
 
   (function _eventness() {
-    _taskQueue.on(FILE_ADDED_EVENT, fireProcessFileEvent)
+    _taskQueue.on(FILE_ADDED_EVENT, raiseProcessFileEvent)
   })();
 
   /**
@@ -59,7 +59,7 @@ function LimitedQueue(config, emitter) {
     _jinn = null;
   };
 
-  function fireProcessFileEvent(jinn, context) {
+  function raiseProcessFileEvent(jinn, context) {
     emitter.emit(EventType.PROCESS_FILE, context);
     _jinn = jinn;
   }
