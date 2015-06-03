@@ -1,6 +1,6 @@
 module.exports = S3Client;
 
-function S3Client() {
+function S3Client(config, emitter) {
 
   var _this = this;
 

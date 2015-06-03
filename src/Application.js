@@ -2,39 +2,36 @@ var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 var FileWatcher = require(s3uploader.ROOT_DIR + 'FileWatcher');
 var LimitedQueue = require(s3uploader.ROOT_DIR + 'LimitedQueue');
 var S3Client = require(s3uploader.ROOT_DIR + 'S3Client');
-var EventService = require(s3uploader.ROOT_DIR + 'EventService');
 var S3UploaderLogger = require(s3uploader.ROOT_DIR + 'S3UploaderLogger');
 
 module.exports = Application;
 
-function Application(config) {
+function Application(config, emitter) {
 
   var _this = this;
 
-  var _eventService = new EventService();
+  var _fileWatcher = new FileWatcher(config.chokidar, emitter);
 
-  var _fileWatcher = new FileWatcher(config.chokidar, _eventService);
+  var _limitedQueue = new LimitedQueue(config.tasks_queue, emitter);
 
-  var _limitedQueue = new LimitedQueue(config.tasks_queue, _eventService);
-
-  var _s3Client = new S3Client(config.knox, _eventService);
+  var _s3Client = new S3Client(config.knox, emitter);
 
   var _logger = new S3UploaderLogger();
 
   (function _eventness() {
-    _eventService.on(EventType.SERVICE_START, _fileWatcher.startWatching);
-    _eventService.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
-    _eventService.on(EventType.PROCESS_FILE, _s3Client.sendToStore);
-    _eventService.on(EventType.MOVE_SUCCEED, _limitedQueue.continueProcessing);
-    _eventService.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
-    _eventService.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
+    emitter.on(EventType.SERVICE_START, _fileWatcher.startWatching);
+    emitter.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
+    emitter.on(EventType.PROCESS_FILE, _s3Client.sendToStore);
+    emitter.on(EventType.MOVE_SUCCEED, _limitedQueue.continueProcessing);
+    emitter.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
+    emitter.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
 
     // вызуально отделяем логирование от основного потока событий
-    _eventService.on(EventType.MOVE_SUCCEED, _logger.logSuccess);
-    _eventService.on(EventType.MOVE_FAILING, _logger.logError);
+    emitter.on(EventType.MOVE_SUCCEED, _logger.logSuccess);
+    emitter.on(EventType.MOVE_FAILING, _logger.logError);
   })();
 
   _this.start = function () {
-    _eventService.start();
+    emitter.start();
   };
 }
