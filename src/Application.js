@@ -6,6 +6,10 @@ var S3UploaderLogger = require(s3uploader.ROOT_DIR + 'S3UploaderLogger');
 
 module.exports = Application;
 
+/**
+ * @param {Object} config
+ * @param {EventService} emitter
+ */
 function Application(config, emitter) {
 
   var _this = this;
@@ -32,6 +36,6 @@ function Application(config, emitter) {
   })();
 
   _this.start = function () {
-    emitter.start();
+    emitter.emitServiceStartEvent();
   };
 }

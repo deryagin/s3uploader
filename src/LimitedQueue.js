@@ -7,7 +7,7 @@ module.exports = LimitedQueue;
  * @todo: избавиться от multiple definitions для config. Придумать форму по короче.
  * @param {{defaultInterval: Number, maximumInterval: Number, intervalMultiplier: Number}} config
  * @param {Number} config.defaultInterval
- * @param {events.EventEmitter} emitter
+ * @param {EventService} emitter
  */
 function LimitedQueue(config, emitter) {
 
@@ -60,7 +60,7 @@ function LimitedQueue(config, emitter) {
   };
 
   function raiseProcessFileEvent(jinn, context) {
-    emitter.emit(EventType.PROCESS_FILE, context);
+    emitter.emitProcessFileEvent(context.localPath, context.fileStats);
     _jinn = jinn;
   }
 

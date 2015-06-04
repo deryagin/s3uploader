@@ -4,3 +4,4 @@
 [ ] Проработать идею config.js, как аналока package.json, но на уровне классов. Т.е. стандартизовать его разделы. Например создать раздел [general], раздел [dependencies]. В разделе [general] можно хранить настройки для index.js, Application, EventEmitter. В разделе [dependencies] -- настройки chokidar, tasks_queue, knox. можно добавить раздел для логгера итп.
 [ ] Подумать, а не добавить ли метод EventService.raise(eventType, context), который будет проверять , что eventType присутствует в EventType. Можно еще проверять и context. Правда тогда для context нужно будет придумать какой-то способ хранения опесания ожидаемых полей. Формат например может быть JSONSchema. А проверку можно включать/отключать в develop/production.
 [ ] Вернуться к JSDoc. config, emitter autocomplete, find usages.
+[ ] Продумать, а не подключать ли зависимости через один файл, зредварительно зареквайрив их в свойства module.exports этого файла.

@@ -4,6 +4,10 @@ var EventType = require(s3uploader.ROOT_DIR + 'src/EventType');
 
 module.exports = S3Courier;
 
+/**
+ * @param {Object} config
+ * @param {EventService} emitter
+ */
 function S3Courier(config, emitter) {
 
   var _this = this;
@@ -18,6 +22,9 @@ function S3Courier(config, emitter) {
     fs.createReadStream(context.localPath).pipe(s3StoreRequest);
   };
 
+  /**
+   * @todo: вынести в конфиг
+   */
   function buildS3SrotePath(filePath) {
     var fileParts = path.basename(filePath).split('_');
     var vpbxId = fileParts[0];
@@ -42,18 +49,12 @@ function S3Courier(config, emitter) {
   function createS3ResponseHandler(localPath, s3Url) {
     return function (s3Response) {
       if (200 == s3Response.statusCode) {
-        emitter.emit(EventType.MOVE_SUCCEED, {
-          from: localPath,
-          to: s3Url
-        });
+        emitter.emitMoveSucceedEvent(localPath, s3Url);
         return fs.unlink(localPath);
       }
 
-      emitter.emit(EventType.MOVE_FAILING, {
-        from: localPath,
-        to: s3Url,
-        error: new Error('S3 request has returned not "200 OK" code!')
-      });
+      var error = new Error('S3 request has returned not "200 OK" code!');
+      emitter.emitMoveFailingEvent(error, localPath, s3Url);
     };
   }
 }

@@ -8,7 +8,7 @@ module.exports = FileWatcher;
  * @param {Object} config
  * @param {String} config.path
  * @param {Object} config.options
- * @param {events.EventEmitter} emitter
+ * @param {EventService} emitter
  */
 function FileWatcher(config, emitter) {
 
@@ -27,14 +27,11 @@ function FileWatcher(config, emitter) {
   };
 
   /**
+   * @todo: возможно это делегирование лишнее
    * @param {String} localPath
    * @param {fs.Stats} fileStats
-   * @fires EventType.FSWATCER_FILE_ADDED
    */
   function raiseEmergedFileEvent(localPath, fileStats) {
-    emitter.emit(EventType.EMERGED_FILE, {
-      'localPath': localPath,
-      'fileStats': fileStats
-    });
+    emitter.emitEmergedFileEvent(localPath, fileStats);
   }
 }
