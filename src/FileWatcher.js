@@ -12,17 +12,17 @@ module.exports = FileWatcher;
  */
 function FileWatcher(config, emitter) {
 
-  var _this = this;
+  var self = this;
 
   /** @type {chokidar.FSWatcher} */
   var _fsWatcher = new FSWatcher(config.options);
 
-  _this.startWatching = function () {
+  self.startWatching = function () {
     _fsWatcher.add(config.path);
     _fsWatcher.on('add', emitter.emitEmergedFileEvent);
   };
 
-  _this.stopWatching = function () {
+  self.stopWatching = function () {
     _fsWatcher.unwatch(config.path);
   };
 }

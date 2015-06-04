@@ -12,7 +12,7 @@ module.exports = Application;
  */
 function Application(config, emitter) {
 
-  var _this = this;
+  var self = this;
 
   var _fileWatcher = new FileWatcher(config.chokidar, emitter);
 
@@ -35,7 +35,7 @@ function Application(config, emitter) {
     emitter.on(EventType.MOVE_FAILING, _logger.logError);
   })();
 
-  _this.start = function () {
+  self.start = function () {
     emitter.emitServiceStartEvent();
   };
 }

@@ -5,20 +5,20 @@ module.exports = EventService;
 
 function EventService() {
 
-  var _this = this;
+  var self = this;
 
   var _emitter = new EventEmitter();
 
-  _this.on = function (event, listener) {
+  self.on = function (event, listener) {
     _emitter.on(event, listener);
-    return _this;
+    return self;
   };
 
-  _this.emitServiceStartEvent = function () {
+  self.emitServiceStartEvent = function () {
     return _emitter.emit(EventType.SERVICE_START);
   };
 
-  _this.emitServiceStopEvent = function () {
+  self.emitServiceStopEvent = function () {
     return _emitter.emit(EventType.SERVICE_STOP);
   };
 
@@ -27,19 +27,19 @@ function EventService() {
    * @param {fs.Stats} fileStats
    * @fires EventType.EMERGED_FILE -- это нужно вообще??
    */
-  _this.emitEmergedFileEvent = function (localPath, fileStats) {
+  self.emitEmergedFileEvent = function (localPath, fileStats) {
     return _emitter.emit(EventType.EMERGED_FILE, localPath, fileStats);
   };
 
-  _this.emitProcessFileEvent = function (localPath, fileStats) {
+  self.emitProcessFileEvent = function (localPath, fileStats) {
     return _emitter.emit(EventType.PROCESS_FILE, localPath, fileStats);
   };
 
-  _this.emitMoveSucceedEvent = function (from, to) {
+  self.emitMoveSucceedEvent = function (from, to) {
     return _emitter.emit(EventType.MOVE_SUCCEED, from, to);
   };
 
-  _this.emitMoveFailingEvent = function (error, from, to) {
+  self.emitMoveFailingEvent = function (error, from, to) {
     return _emitter.emit(EventType.MOVE_FAILING, error, from, to);
   };
 }

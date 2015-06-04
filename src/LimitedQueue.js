@@ -11,7 +11,7 @@ module.exports = LimitedQueue;
  */
 function LimitedQueue(config, emitter) {
 
-  var _this = this;
+  var self = this;
 
   /** @type {tasks-queue.TaskQueue} */
   var _taskQueue = new TaskQueue();
@@ -34,14 +34,14 @@ function LimitedQueue(config, emitter) {
   /**
    * @param {{localPath: String, fileStats: fs.Stats}} context
    */
-  _this.addFileToQueue = function (context) {
+  self.addFileToQueue = function (context) {
     queue.pushTask(FILE_ADDED_EVENT, {
       'localPath': context.localPath,
       'fileStats': context.fileStats
     })
   };
 
-  _this.continueProcessing = function () {
+  self.continueProcessing = function () {
     // если все ок, то сбрасываем интервал ожидания обработки
     // следующего события и завершает его обработку вызовом _jinn.done()
     _taskQueue.setMinTime(config.defaultInterval);
@@ -49,7 +49,7 @@ function LimitedQueue(config, emitter) {
     _jinn = null;
   };
 
-  _this.slowDownProcessing = function () {
+  self.slowDownProcessing = function () {
     // если ошибка, добавляем таск в конец очереди,
     // чтобы снова попытаться отправить файл в S3
     // и увеличиваем интервал между попытками

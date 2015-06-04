@@ -10,11 +10,11 @@ module.exports = S3Courier;
  */
 function S3Courier(config, emitter) {
 
-  var _this = this;
+  var self = this;
 
   var _s3Client = knox.createClient(config);
 
-  _this.moveToStore = function (context) {
+  self.moveToStore = function (context) {
     var s3FilePath = buildS3SrotePath(context.localPath);
     var s3StoreRequest = createS3StoreRequest(s3FilePath, context.fileStats.size);
     var s3ResponseHandler = createS3ResponseHandler(context.localPath, s3StoreRequest.url);
