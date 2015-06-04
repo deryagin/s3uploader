@@ -1,24 +1,31 @@
-module.exports = {
+//  По-сути дела, -- это реализация шаблона Singleton;
+// instance подчеркивает, что экспортируется экземпляр объекта,
+// а не сама функция-конструктор
+module.exports.instance = new S3Uploader_Config();
 
-  chokidar: {
+function S3Uploader_Config() {
+
+  var self = this;
+
+  self.chokidar = {
     path: '/var/spool/mcn/vpbx/records',
     options: {
       alwaysStat: true,
       depth: 0
     }
-  },
+  };
 
-  tasks_queue: {
+  self.tasks_queue = {
     defaultInterval: 50, // milliseconds
     maximumInterval: 10000, // milliseconds
     intervalMultiplier: 2
-  },
+  };
 
-  knox: {
+  self.knox = {
     key: 'IJKA0CM19YQRCZZUP1UJ',
     secret: 'MRjqxJcPmKrm6aMPzCn8DErX3bCuY+5DZLjMhGzK',
     bucket: 'test-vpbx',
     endpoint: 'rados.mcn.ru',
     style: 'path'
   }
-};
+}

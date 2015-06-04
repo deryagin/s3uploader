@@ -1,15 +1,13 @@
 var TaskQueue = require('tasks-queue');
 var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 
-module.exports = LimitedQueue;
+module.exports = S3Uploader_LimitedQueue;
 
 /**
- * @todo: избавиться от multiple definitions для config. Придумать форму по короче.
- * @param {{defaultInterval: Number, maximumInterval: Number, intervalMultiplier: Number}} config
- * @param {Number} config.defaultInterval
- * @param {EventService} emitter
+ * @param {config.tasks_queue} config
+ * @param {S3Uploader_EventService} emitter
  */
-function LimitedQueue(config, emitter) {
+function S3Uploader_LimitedQueue(config, emitter) {
 
   var self = this;
 

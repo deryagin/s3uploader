@@ -1,16 +1,13 @@
 var FSWatcher = require('chokidar').FSWatcher;
 var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 
-module.exports = FileWatcher;
+module.exports = S3Uploader_FileWatcher;
 
 /**
- * @todo избавиться от multiple definitions для config
- * @param {Object} config
- * @param {String} config.path
- * @param {Object} config.options
- * @param {EventService} emitter
+ * @param {S3Uploader_Config.chokidar} config
+ * @param {S3Uploader_EventService} emitter
  */
-function FileWatcher(config, emitter) {
+function S3Uploader_FileWatcher(config, emitter) {
 
   var self = this;
 

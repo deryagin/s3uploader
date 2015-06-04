@@ -1,9 +1,9 @@
 var EventEmitter = require('events').EventEmitter;
 var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 
-module.exports = EventService;
+module.exports = S3Uploader_EventService;
 
-function EventService() {
+function S3Uploader_EventService() {
 
   var self = this;
 
@@ -23,9 +23,9 @@ function EventService() {
   };
 
   /**
+   * @emits EventType.EMERGED_FILE -- это нужно вообще??
    * @param {String} localPath
    * @param {fs.Stats} fileStats
-   * @fires EventType.EMERGED_FILE -- это нужно вообще??
    */
   self.emitEmergedFileEvent = function (localPath, fileStats) {
     return _emitter.emit(EventType.EMERGED_FILE, localPath, fileStats);

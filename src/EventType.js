@@ -1,14 +1,22 @@
-module.exports = {
+module.exports = new S3Uploader_EventType();
 
-  SERVICE_START: 'SERVICE_START',
+/**
+ * @todo: возможно события лучше засунуть в прототип.
+ * Тогда можно будет экспортировать не объект, а класс.
+ */
+function S3Uploader_EventType() {
 
-  SERVICE_STOP: 'SERVICE_STOP',
+  var self = this;
 
-  EMERGED_FILE: 'EMERGED_FILE',
+  self.SERVICE_START = 'SERVICE_START';
 
-  PROCESS_FILE: 'PROCESS_FILE',
+  self.SERVICE_STOP = 'SERVICE_STOP';
 
-  MOVE_SUCCEED: 'MOVE_SUCCEED',
+  self.EMERGED_FILE = 'EMERGED_FILE';
 
-  MOVE_FAILING: 'MOVE_FAILING'
-};
+  self.PROCESS_FILE = 'PROCESS_FILE';
+
+  self.MOVE_SUCCEED = 'MOVE_SUCCEED';
+
+  self.MOVE_FAILING = 'MOVE_FAILING';
+}

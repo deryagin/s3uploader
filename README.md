@@ -117,26 +117,26 @@ _initialize(), чтобы он не балтался в воздухе:
 Вместо имен коллбэков типа onFileAdded, или onSuccess, или onError лучше использовать
 более информативные имена. Например doSomething.
 
-EventService выносим из Application в index.js, поскольку это базовая зависимость всех классов.
-И очевидно, EventService должен инстанцироваться на более высоком уровне, чем те объекты, куда
-он передается. Как то FileWatcher, LimitedQueue, S3Client итп.
+S3Uploader_EventService выносим из Application в index.js, поскольку это базовая зависимость всех классов.
+И очевидно, S3Uploader_EventService должен инстанцироваться на более высоком уровне, чем те объекты, куда
+он передается. Как то S3Uploader_FileWatcher, S3Uploader_LimitedQueue, S3Client итп.
 
 У нас есть события, относыщиеся ко всему модулю. Это события, перечисленные в EventType и работа
-с ними выполняется через EventService! Это события верхнего уровня по отношению к
-внутренним событиям отдельного взятого класса типа FileWatcher или LimitedQueue. Поэтому, есть
+с ними выполняется через S3Uploader_EventService! Это события верхнего уровня по отношению к
+внутренним событиям отдельного взятого класса типа S3Uploader_FileWatcher или S3Uploader_LimitedQueue. Поэтому, есть
 смысл ввести конвенцию на именование методов, которые генерирую события верхнего уровня.
-Напр. можно еменовать их по схеме raise<EventName>Event. См. например FileWatcher.raiseEmergedFileEvent()
-или LimitedQueue.raiseProcessFileEvent().
+Напр. можно еменовать их по схеме raise<EventName>Event. См. например S3Uploader_FileWatcher.raiseEmergedFileEvent()
+или S3Uploader_LimitedQueue.raiseProcessFileEvent().
 
-S3Client переименован в S3Courier. Поскольку он не просто посылает файл в S3, а именно перемещает его.
+S3Client переименован в S3Uploader_S3Courier. Поскольку он не просто посылает файл в S3, а именно перемещает его.
 Т.е. содержит в себе логику чтения локального файла и удаления его после копирования в S3.
 
-В EventService добавлены методы emit<EventType>Event. Через которые должны эмититься конкретные
+В S3Uploader_EventService добавлены методы emit<EventType>Event. Через которые должны эмититься конкретные
  события. Список параметров этих методов определяю контекст события. При этом наследование
- EventService от EventEmitter было заменено на делегирование к его методам on и emit. Это сделано для того, чтобы
+ S3Uploader_EventService от EventEmitter было заменено на делегирование к его методам on и emit. Это сделано для того, чтобы
  события нельзя было эмитить напрямую, а только через методы emit<EventType>Event. Это защищает от появления
  в системе недокументированных событий. Поэтому событие обязательно должно быть зарегистрировано в EventType.
- И для него должен быть созда метод EventService.emit<EventType>Event.
+ И для него должен быть созда метод S3Uploader_EventService.emit<EventType>Event.
 
-Уточнение в конвенции именования. В EventService используется префикс emit, в остальных классах -- префикс raise.
-Например: LimitedQueue.raiseProcessFileEvent(), EventService.emitProcessFileEvent().
+Уточнение в конвенции именования. В S3Uploader_EventService используется префикс emit, в остальных классах -- префикс raise.
+Например: S3Uploader_LimitedQueue.raiseProcessFileEvent(), S3Uploader_EventService.emitProcessFileEvent().

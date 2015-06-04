@@ -1,6 +1,6 @@
-module.exports = S3UploaderLogger;
+module.exports = S3Uploader_Logger;
 
-function S3UploaderLogger() {
+function S3Uploader_Logger() {
 
   var self = this;
 
