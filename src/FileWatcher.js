@@ -19,19 +19,10 @@ function FileWatcher(config, emitter) {
 
   _this.startWatching = function () {
     _fsWatcher.add(config.path);
-    _fsWatcher.on('add', raiseEmergedFileEvent);
+    _fsWatcher.on('add', emitter.emitEmergedFileEvent);
   };
 
   _this.stopWatching = function () {
     _fsWatcher.unwatch(config.path);
   };
-
-  /**
-   * @todo: возможно это делегирование лишнее
-   * @param {String} localPath
-   * @param {fs.Stats} fileStats
-   */
-  function raiseEmergedFileEvent(localPath, fileStats) {
-    emitter.emitEmergedFileEvent(localPath, fileStats);
-  }
 }
