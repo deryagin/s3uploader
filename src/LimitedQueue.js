@@ -4,20 +4,23 @@ var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 module.exports = S3Uploader_LimitedQueue;
 
 /**
- * @param {config.tasks_queue} config
+ * @param {S3Uploader_Config.tasks_queue} config
  * @param {S3Uploader_EventService} emitter
  */
 function S3Uploader_LimitedQueue(config, emitter) {
 
   var self = this;
 
+  var FILE_ADDED_EVENT = 'file:added';
+
   /** @type {tasks-queue.TaskQueue} */
   var _taskQueue = new TaskQueue();
 
-  /** @type {Jinn} - вызов jinn.done() указывает на завершение обработки очередного события https://github.com/tutukin/tasks-queue */
+  /** @type {Jinn} - вызов jinn.done() завершает обработку текущего события https://github.com/tutukin/tasks-queue */
   var _jinn = null;
 
-  var FILE_ADDED_EVENT = 'file:added';
+  /** @type {{localPath: 'String', fsStats: 'fs.Stats'}} - контекст текущего, обрабатываемого события. */
+  var _context = null;
 
   (function _initialize() {
     _taskQueue.setMinTime(config.defaultInterval);
@@ -30,18 +33,20 @@ function S3Uploader_LimitedQueue(config, emitter) {
   })();
 
   /**
-   * @param {{localPath: String, fileStats: fs.Stats}} context
+   * @todo: разобраться, как вместо описания параметров
+   * ссылаться на сигнатуру метода S3Uploader_EventService.emitEmergedFileEvent
    */
-  self.addFileToQueue = function (context) {
-    queue.pushTask(FILE_ADDED_EVENT, {
-      'localPath': context.localPath,
-      'fileStats': context.fileStats
-    })
+  self.addFileToQueue = function (localPath, fsStats) {
+    _context = {
+      'localPath': localPath,
+      'fsStats': fsStats
+    };
+    queue.pushTask(FILE_ADDED_EVENT, _context)
   };
 
   self.continueProcessing = function () {
-    // если все ок, то сбрасываем интервал ожидания обработки
-    // следующего события и завершает его обработку вызовом _jinn.done()
+    // если все ок, то сбрасываем интервал ожидания обработки следующего события и
+    // завершает его обработку вызовом _jinn.done()
     _taskQueue.setMinTime(config.defaultInterval);
     _jinn.done();
     _jinn = null;
@@ -52,14 +57,15 @@ function S3Uploader_LimitedQueue(config, emitter) {
     // чтобы снова попытаться отправить файл в S3
     // и увеличиваем интервал между попытками
     slowDownTaskQueue();
-    _taskQueue.pushTask('file:added', fileInfo); // todo: fileInfo нужно запоминать, чтобы потом здесь использовать!
+    _taskQueue.pushTask('file:added', _context);
     _jinn.done();
     _jinn = null;
   };
 
   function raiseProcessFileEvent(jinn, context) {
-    emitter.emitProcessFileEvent(context.localPath, context.fileStats);
     _jinn = jinn;
+    _context = context;
+    emitter.emitProcessFileEvent(context.localPath, context.fsStats);
   }
 
   function slowDownTaskQueue() {

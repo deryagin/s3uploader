@@ -25,14 +25,14 @@ function S3Uploader_EventService() {
   /**
    * @emits EventType.EMERGED_FILE -- это нужно вообще??
    * @param {String} localPath
-   * @param {fs.Stats} fileStats
+   * @param {fs.Stats} fsStats
    */
-  self.emitEmergedFileEvent = function (localPath, fileStats) {
-    return _emitter.emit(EventType.EMERGED_FILE, localPath, fileStats);
+  self.emitEmergedFileEvent = function (localPath, fsStats) {
+    return _emitter.emit(EventType.EMERGED_FILE, localPath, fsStats);
   };
 
-  self.emitProcessFileEvent = function (localPath, fileStats) {
-    return _emitter.emit(EventType.PROCESS_FILE, localPath, fileStats);
+  self.emitProcessFileEvent = function (localPath, fsStats) {
+    return _emitter.emit(EventType.PROCESS_FILE, localPath, fsStats);
   };
 
   self.emitMoveSucceedEvent = function (from, to) {
