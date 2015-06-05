@@ -140,3 +140,26 @@ S3Client переименован в S3Uploader_S3Courier. Поскольку о
 
 Уточнение в конвенции именования. В S3Uploader_EventService используется префикс emit, в остальных классах -- префикс raise.
 Например: S3Uploader_LimitedQueue.raiseProcessFileEvent(), S3Uploader_EventService.emitProcessFileEvent().
+
+S3Uploader_EventType является статическим классом, который хранит перечень констант. Что бы быть трушными
+ константами, эти константы должны позволять доступ через идентификатор функции, но не позволять доступ
+ через экземпляр объекта функции-конструетора. Чтобы добиться этого, мы объявляем константы, как члены
+ функции конструктора: `S3Uploader_EventType.SERVICE_START = 'SERVICE_START';`. Но делаем это не снаружи,
+ а изнутри функции конструктора, чтобы функция оставалась self-contained:
+```js
+   function S3Uploader_EventType() {
+
+     S3Uploader_EventType.SERVICE_START = 'SERVICE_START';
+
+     S3Uploader_EventType.SERVICE_STOP = 'SERVICE_STOP';
+
+     S3Uploader_EventType.EMERGED_FILE = 'EMERGED_FILE';
+
+     S3Uploader_EventType.PROCESS_FILE = 'PROCESS_FILE';
+
+     S3Uploader_EventType.MOVE_SUCCEED = 'MOVE_SUCCEED';
+
+     S3Uploader_EventType.MOVE_FAILING = 'MOVE_FAILING';
+   }
+```
+
