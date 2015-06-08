@@ -2,10 +2,11 @@
 [ ] Попробывать поиграться с process.paths и require.resolve() Попробывать убрать node_modules с глаз долой из корня проекта напр. в lib/node_modules. Хотя может так и не стоит. Т.к. не является общепринятым.
 [ ] Вернуться к JSDoc. config, emitter autocomplete, find usages.
 [ ] Продумать, а не подключать ли зависимости через один файл, зредварительно зареквайрив их в свойства module.exports этого файла.
-[ ] Доработать global.s3uploader.include.
 [ ] Логика index.js должна быть перенесена в run/s3uploader.js. А index.js должен просто эксспортировать все зависимости из src.
 [ ] Доработать, чтобы все заработало.
 [ ] Посмотреть, как вместо @see можно использовать @lisntens так, чтобы работало find definitions.
+[ ] Подумать, как можно присобачить вот эту идею: http://habrahabr.ru/post/259281/
+[x] Доработать global.s3uploader.require.
 [x] Возможно заменить непривычный _this на более привычный self.
 [-] Продумать использование неймспейсов (Module Pattern). Напр. module.exports.S3Uploader.FileWatcher = FileWatcher; как-то так.
 [x] Доработать EventType.

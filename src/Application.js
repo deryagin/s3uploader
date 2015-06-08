@@ -1,8 +1,8 @@
-var EventType = require(s3uploader.ROOT_DIR + 'EventType');
-var FileWatcher = require(s3uploader.ROOT_DIR + 'FileWatcher');
-var LimitedQueue = require(s3uploader.ROOT_DIR + 'LimitedQueue');
-var S3Sender = require(s3uploader.ROOT_DIR + 'S3Sender');
-var Logger = require(s3uploader.ROOT_DIR + 'Logger');
+var EventType = s3uploader.require('S3Uploader_EventType');
+var FileWatcher = s3uploader.require('S3Uploader_FileWatcher');
+var LimitedQueue = s3uploader.require('S3Uploader_LimitedQueue');
+var S3Sender = s3uploader.require('S3Uploader_S3Sender');
+var Logger = s3uploader.require('S3Uploader_Logger');
 
 module.exports = S3Uploader_Application;
 

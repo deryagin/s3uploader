@@ -1,5 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
-var EventType = require(s3uploader.ROOT_DIR + 'EventType');
+var EventType = s3uploader.require('S3Uploader_EventType');
 
 module.exports = S3Uploader_EventService;
 

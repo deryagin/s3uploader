@@ -1,5 +1,4 @@
 var FSWatcher = require('chokidar').FSWatcher;
-var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 
 module.exports = S3Uploader_FileWatcher;
 
@@ -18,6 +17,7 @@ function S3Uploader_FileWatcher(emitter, config) {
    * @see S3Uploader_EventService.emitServiceStartEvent
    */
   self.startWatching = function () {
+    // todo: решить проблему, почему не резолвится?
     _fsWatcher.add(config.path);
     _fsWatcher.on('add', emitter.emitEmergedFileEvent);
   };

@@ -1,20 +1,15 @@
 process.chdir(__dirname);
-
 require('./global');
+
+var config = require('./config').instance;
 var ClassLoader = require('./src/ClassLoader');
 
-var classLoader = new ClassLoader();
-classLoader.addNamespace('S3Uploader', s3uploader.ROOT_DIR + 'src/'); // todo: вынести в конфиг, возможно
-s3uploader.require = loader.require;
+var classLoader = new ClassLoader(config.classLoader);
+global.s3uploader.require = classLoader.require;
 
-var config = s3uploader.require('S3Uploader_Config').instance;
 var EventService = s3uploader.require('S3Uploader_EventService');
 var Application = s3uploader.require('S3Uploader_Application');
 
-//var config = require(s3uploader.ROOT_DIR + 'config');
-//var EventService = require(s3uploader.ROOT_DIR + 'src/EventService');
-//var Application = require(s3uploader.ROOT_DIR + 'src/Application');
-
 var emitter = new EventService();
-var application = new Application(config, emitter);
+var application = new Application(emitter, config);
 application.start();

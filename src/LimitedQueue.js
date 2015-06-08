@@ -1,5 +1,4 @@
 var TaskQueue = require('tasks-queue');
-var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 
 module.exports = S3Uploader_LimitedQueue;
 
@@ -57,7 +56,7 @@ function S3Uploader_LimitedQueue(emitter, config) {
   /**
    * @see S3Uploader_EventService.emitMoveFailingEvent
    */
-  self.slowDownProcessing = function (error, from, to) {
+  self.slowDownProcessing = function () {
     // если ошибка, добавляем таск в конец очереди,
     // чтобы снова попытаться отправить файл в S3
     // и увеличиваем интервал между попытками
