@@ -14,11 +14,17 @@ function S3Uploader_FileWatcher(emitter, config) {
   /** @type {chokidar.FSWatcher} */
   var _fsWatcher = new FSWatcher(config.options);
 
+  /**
+   * @see S3Uploader_EventService.emitServiceStartEvent
+   */
   self.startWatching = function () {
     _fsWatcher.add(config.path);
     _fsWatcher.on('add', emitter.emitEmergedFileEvent);
   };
 
+  /**
+   * @see S3Uploader_EventService.emitServiceStopEvent
+   */
   self.stopWatching = function () {
     _fsWatcher.unwatch(config.path);
   };

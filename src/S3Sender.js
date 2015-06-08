@@ -14,12 +14,15 @@ function S3Uploader_S3Sender(emitter, config) {
 
   var _s3Client = knox.createClient(config);
 
-  self.moveToStore = function (context) {
-    var s3FilePath = buildS3SrotePath(context.localPath);
-    var s3StoreRequest = createS3StoreRequest(s3FilePath, context.fileStats.size);
-    var s3ResponseHandler = createS3ResponseHandler(context.localPath, s3StoreRequest.url);
+  /**
+   * @see S3Uploader_EventService.emitMoveNeededEvent
+   */
+  self.moveToStore = function (localPath, fsStats) {
+    var s3FilePath = buildS3SrotePath(localPath);
+    var s3StoreRequest = createS3StoreRequest(s3FilePath, fsStats.size);
+    var s3ResponseHandler = createS3ResponseHandler(localPath, s3StoreRequest.url);
     s3StoreRequest.on('response', s3ResponseHandler);
-    fs.createReadStream(context.localPath).pipe(s3StoreRequest);
+    fs.createReadStream(localPath).pipe(s3StoreRequest);
   };
 
   /**

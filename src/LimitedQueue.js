@@ -33,8 +33,7 @@ function S3Uploader_LimitedQueue(emitter, config) {
   })();
 
   /**
-   * @todo: разобраться, как вместо описания параметров
-   * ссылаться на сигнатуру метода S3Uploader_EventService.emitEmergedFileEvent
+   * @see S3Uploader_EventService.emitEmergedFileEvent
    */
   self.addFileToQueue = function (localPath, fsStats) {
     _context = {
@@ -44,6 +43,9 @@ function S3Uploader_LimitedQueue(emitter, config) {
     queue.pushTask(FILE_ADDED_EVENT, _context)
   };
 
+  /**
+   * @see S3Uploader_EventService.emitMoveSucceedEvent
+   */
   self.continueProcessing = function () {
     // если все ок, то сбрасываем интервал ожидания обработки следующего события и
     // завершает его обработку вызовом _jinn.done()
@@ -52,7 +54,10 @@ function S3Uploader_LimitedQueue(emitter, config) {
     _jinn = null;
   };
 
-  self.slowDownProcessing = function () {
+  /**
+   * @see S3Uploader_EventService.emitMoveFailingEvent
+   */
+  self.slowDownProcessing = function (error, from, to) {
     // если ошибка, добавляем таск в конец очереди,
     // чтобы снова попытаться отправить файл в S3
     // и увеличиваем интервал между попытками
