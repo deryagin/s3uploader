@@ -1,6 +1,3 @@
-//  По-сути дела, -- это реализация шаблона Singleton;
-// instance подчеркивает, что экспортируется экземпляр объекта,
-// а не сама функция-конструктор
 module.exports.instance = new S3Uploader_Config();
 
 function S3Uploader_Config() {

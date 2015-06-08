@@ -4,10 +4,10 @@ var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 module.exports = S3Uploader_LimitedQueue;
 
 /**
- * @param {S3Uploader_Config.tasks_queue} config
  * @param {S3Uploader_EventService} emitter
+ * @param {S3Uploader_Config.tasks_queue} config
  */
-function S3Uploader_LimitedQueue(config, emitter) {
+function S3Uploader_LimitedQueue(emitter, config) {
 
   var self = this;
 
@@ -29,7 +29,7 @@ function S3Uploader_LimitedQueue(config, emitter) {
   })();
 
   (function _eventness() {
-    _taskQueue.on(FILE_ADDED_EVENT, raiseProcessFileEvent)
+    _taskQueue.on(FILE_ADDED_EVENT, raiseMoveNeededEvent)
   })();
 
   /**
@@ -62,10 +62,10 @@ function S3Uploader_LimitedQueue(config, emitter) {
     _jinn = null;
   };
 
-  function raiseProcessFileEvent(jinn, context) {
+  function raiseMoveNeededEvent(jinn, context) {
     _jinn = jinn;
     _context = context;
-    emitter.emitProcessFileEvent(context.localPath, context.fsStats);
+    emitter.emitMoveNeededEvent(context.localPath, context.fsStats);
   }
 
   function slowDownTaskQueue() {

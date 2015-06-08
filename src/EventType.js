@@ -8,7 +8,7 @@ function S3Uploader_EventType() {
 
   S3Uploader_EventType.EMERGED_FILE = 'EMERGED_FILE';
 
-  S3Uploader_EventType.PROCESS_FILE = 'PROCESS_FILE';
+  S3Uploader_EventType.MOVE_NEEDED = 'MOVE_NEEDED';
 
   S3Uploader_EventType.MOVE_SUCCEED = 'MOVE_SUCCEED';
 

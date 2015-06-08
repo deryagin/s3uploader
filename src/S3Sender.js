@@ -2,13 +2,13 @@ var fs = require('fs');
 var knox = require('knox');
 var EventType = require(s3uploader.ROOT_DIR + 'src/EventType');
 
-module.exports = S3Uploader_S3Courier;
+module.exports = S3Uploader_S3Sender;
 
 /**
- * @param {S3Uploader_Config.knox} config
  * @param {S3Uploader_EventService} emitter
+ * @param {S3Uploader_Config.knox} config
  */
-function S3Uploader_S3Courier(config, emitter) {
+function S3Uploader_S3Sender(emitter, config) {
 
   var self = this;
 

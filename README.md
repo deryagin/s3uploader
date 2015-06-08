@@ -139,7 +139,7 @@ S3Client переименован в S3Uploader_S3Courier. Поскольку о
  И для него должен быть созда метод S3Uploader_EventService.emit<EventType>Event.
 
 Уточнение в конвенции именования. В S3Uploader_EventService используется префикс emit, в остальных классах -- префикс raise.
-Например: S3Uploader_LimitedQueue.raiseProcessFileEvent(), S3Uploader_EventService.emitProcessFileEvent().
+Например: S3Uploader_LimitedQueue.raiseProcessFileEvent(), S3Uploader_EventService.emitMoveNeededEvent().
 
 S3Uploader_EventType является статическим классом, который хранит перечень констант. Что бы быть трушными
  константами, эти константы должны позволять доступ через идентификатор функции, но не позволять доступ
@@ -155,7 +155,7 @@ S3Uploader_EventType является статическим классом, к�
 
      S3Uploader_EventType.EMERGED_FILE = 'EMERGED_FILE';
 
-     S3Uploader_EventType.PROCESS_FILE = 'PROCESS_FILE';
+     S3Uploader_EventType.MOVE_NEEDED = 'MOVE_NEEDED';
 
      S3Uploader_EventType.MOVE_SUCCEED = 'MOVE_SUCCEED';
 
@@ -163,3 +163,6 @@ S3Uploader_EventType является статическим классом, к�
    }
 ```
 
+// S3Uploader_Config, по-сути дела, -- это реализация шаблона Singleton;
+// instance подчеркивает, что экспортируется экземпляр объекта,
+// а не сама функция-конструктор

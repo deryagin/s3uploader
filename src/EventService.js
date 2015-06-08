@@ -14,16 +14,22 @@ function S3Uploader_EventService() {
     return self;
   };
 
+  /**
+   * @emits S3Uploader_EventType.SERVICE_START
+   */
   self.emitServiceStartEvent = function () {
     return _emitter.emit(EventType.SERVICE_START);
   };
 
+  /**
+   * @emits S3Uploader_EventType.SERVICE_STOP
+   */
   self.emitServiceStopEvent = function () {
     return _emitter.emit(EventType.SERVICE_STOP);
   };
 
   /**
-   * @emits EventType.EMERGED_FILE -- это нужно вообще??
+   * @emits S3Uploader_EventType.EMERGED_FILE
    * @param {String} localPath
    * @param {fs.Stats} fsStats
    */
@@ -31,14 +37,30 @@ function S3Uploader_EventService() {
     return _emitter.emit(EventType.EMERGED_FILE, localPath, fsStats);
   };
 
-  self.emitProcessFileEvent = function (localPath, fsStats) {
-    return _emitter.emit(EventType.PROCESS_FILE, localPath, fsStats);
+  /**
+   * @emits S3Uploader_EventType.MOVE_NEEDED
+   * @param {String} localPath
+   * @param {fs.Stats} fsStats
+   */
+  self.emitMoveNeededEvent = function (localPath, fsStats) {
+    return _emitter.emit(EventType.MOVE_NEEDED, localPath, fsStats);
   };
 
+  /**
+   * @emits S3Uploader_EventType.MOVE_SUCCEED
+   * @param {String} from
+   * @param {String} to
+   */
   self.emitMoveSucceedEvent = function (from, to) {
     return _emitter.emit(EventType.MOVE_SUCCEED, from, to);
   };
 
+  /**
+   * @emits S3Uploader_EventType.MOVE_FAILING
+   * @param {Error} error
+   * @param {String} from
+   * @param {String} to
+   */
   self.emitMoveFailingEvent = function (error, from, to) {
     return _emitter.emit(EventType.MOVE_FAILING, error, from, to);
   };

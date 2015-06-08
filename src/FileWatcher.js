@@ -4,10 +4,10 @@ var EventType = require(s3uploader.ROOT_DIR + 'EventType');
 module.exports = S3Uploader_FileWatcher;
 
 /**
- * @param {S3Uploader_Config.chokidar} config
  * @param {S3Uploader_EventService} emitter
+ * @param {S3Uploader_Config.chokidar} config
  */
-function S3Uploader_FileWatcher(config, emitter) {
+function S3Uploader_FileWatcher(emitter, config) {
 
   var self = this;
 

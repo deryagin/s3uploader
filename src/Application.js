@@ -7,21 +7,21 @@ var Logger = require(s3uploader.ROOT_DIR + 'Logger');
 module.exports = S3Uploader_Application;
 
 /**
- * @param {S3Uploader_Config} config
  * @param {S3Uploader_EventService} emitter
+ * @param {S3Uploader_Config} config
  */
-function S3Uploader_Application(config, emitter) {
+function S3Uploader_Application(emitter, config) {
 
   var self = this;
 
   /** @type {S3Uploader_FileWatcher} */
-  var _fileWatcher = new FileWatcher(config.chokidar, emitter);
+  var _fileWatcher = new FileWatcher(emitter, config.chokidar);
 
   /** @type {S3Uploader_LimitedQueue} */
-  var _limitedQueue = new LimitedQueue(config.tasks_queue, emitter);
+  var _limitedQueue = new LimitedQueue(emitter, config.tasks_queue);
 
-  /** @type {S3Uploader_S3Courier} */
-  var _s3Sender = new S3Sender(config.knox, emitter);
+  /** @type {S3Uploader_S3Sender} */
+  var _s3Sender = new S3Sender(emitter, config.knox);
 
   /** @type {S3Uploader_Logger} */
   var _logger = new Logger();
@@ -29,7 +29,7 @@ function S3Uploader_Application(config, emitter) {
   (function _eventness() {
     emitter.on(EventType.SERVICE_START, _fileWatcher.startWatching);
     emitter.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
-    emitter.on(EventType.PROCESS_FILE, _s3Sender.moveToStore);
+    emitter.on(EventType.MOVE_NEEDED, _s3Sender.moveToStore);
     emitter.on(EventType.MOVE_SUCCEED, _limitedQueue.continueProcessing);
     emitter.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
     emitter.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
