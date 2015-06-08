@@ -5,7 +5,7 @@
 [ ] Логика index.js должна быть перенесена в run/s3uploader.js. А index.js должен просто эксспортировать все зависимости из src.
 [ ] Доработать, чтобы все заработало.
 [ ] Посмотреть, как вместо @see можно использовать @lisntens так, чтобы работало find definitions.
-[ ] Подумать, как можно присобачить вот эту идею: http://habrahabr.ru/post/259281/
+[ ] Подумать, как можно использовать JSDoc-тэги @module и @namespace + http://habrahabr.ru/post/259281/. Возможно получится хорошая альтернатива Zend 1.0 namespacing.
 [x] Доработать global.s3uploader.require.
 [x] Возможно заменить непривычный _this на более привычный self.
 [-] Продумать использование неймспейсов (Module Pattern). Напр. module.exports.S3Uploader.FileWatcher = FileWatcher; как-то так.

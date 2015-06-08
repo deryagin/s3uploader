@@ -5,7 +5,7 @@ function S3Uploader_Config() {
   var self = this;
 
   self.classLoader = {
-      S3Uploader: s3uploader.ROOT_DIR + 'src/'
+      S3Uploader: s3uploader.ROOTDIR + 'src/'
   };
 
   self.chokidar = {

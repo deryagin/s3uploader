@@ -4,16 +4,31 @@ function S3Uploader_ClassLoader() {
 
   var self = this;
 
+  /** @type {Object.<String, String>} - соответствие неймспейсов и путей в ФС */
   var _nsMap = {};
 
+  /**
+   * Загружает модуль проекта по full-qualified-classname.
+   *
+   * @param {String} qualifiedName
+   * @return {Object|Function} - require.module.exports
+   */
   self.require = function (qualifiedName) {
     var parsed = parseClassName(qualifiedName);
     var directory = findDirectory(parsed.namespace);
     return require(directory + parsed.className);
   };
 
+  /**
+   * Позволяет добавть резолвинг namespace -> FS path.
+   *
+   * @param {String} nsPrefix - неймспейс
+   * @param {String} pathPrefix - абсолютный путь в ФС
+   * @return {S3Uploader_ClassLoader}
+   */
   self.addNamespace = function (nsPrefix, pathPrefix) {
     _nsMap[nsPrefix] = pathPrefix;
+    return self;
   };
 
   function parseClassName(qualifiedName) {
@@ -37,7 +52,7 @@ function S3Uploader_ClassLoader() {
 
 //require('../global');
 //var loader = new S3Uploader_ClassLoader();
-//loader.addNamespace('S3Uploader', s3uploader.ROOT_DIR + 'src/');
+//loader.addNamespace('S3Uploader', s3uploader.ROOTDIR + 'src/');
 //
 //var Logger = loader.require('S3Uploader_Logger');
 //var logger = new Logger();

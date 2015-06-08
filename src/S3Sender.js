@@ -11,10 +11,11 @@ function S3Uploader_S3Sender(emitter, config) {
 
   var self = this;
 
+  /** @type {knox.Client} */ //todo: почему не резолввится?
   var _s3Client = knox.createClient(config);
 
   /**
-   * @see S3Uploader_EventService.emitMoveNeededEvent
+   * @listens {S3Uploader_EventService#emitMoveNeededEvent}
    */
   self.moveToStore = function (localPath, fsStats) {
     var s3FilePath = buildS3SrotePath(localPath);
