@@ -1,11 +1,13 @@
 [ ] добавить тесты
-[ ] Возможно заменить непривычный _this на более привычный self.
 [ ] Попробывать поиграться с process.paths и require.resolve() Попробывать убрать node_modules с глаз долой из корня проекта напр. в lib/node_modules. Хотя может так и не стоит. Т.к. не является общепринятым.
 [ ] Вернуться к JSDoc. config, emitter autocomplete, find usages.
 [ ] Продумать, а не подключать ли зависимости через один файл, зредварительно зареквайрив их в свойства module.exports этого файла.
 [ ] Доработать global.s3uploader.include.
 [ ] Логика index.js должна быть перенесена в run/s3uploader.js. А index.js должен просто эксспортировать все зависимости из src.
-[ ] Продумать использование неймспейсов (Module Pattern). Напр. module.exports.S3Uploader.FileWatcher = FileWatcher; как-то так.
+[ ] Доработать, чтобы все заработало.
+[ ] Посмотреть, как вместо @see можно использовать @lisntens так, чтобы работало find definitions.
+[x] Возможно заменить непривычный _this на более привычный self.
+[-] Продумать использование неймспейсов (Module Pattern). Напр. module.exports.S3Uploader.FileWatcher = FileWatcher; как-то так.
 [x] Доработать EventType.
 [-] Проработать идею config.js, как аналока package.json, но на уровне классов. Т.е. стандартизовать его разделы. Например создать раздел [general], раздел [dependencies]. В разделе [general] можно хранить настройки для index.js, Application, EventEmitter. В разделе [dependencies] -- настройки chokidar, tasks_queue, knox. можно добавить раздел для логгера итп.
 [-] Подумать, а не добавить ли метод S3Uploader_EventService.raise(eventType, context), который будет проверять , что eventType присутствует в EventType. Можно еще проверять и context. Правда тогда для context нужно будет придумать какой-то способ хранения опесания ожидаемых полей. Формат например может быть JSONSchema. А проверку можно включать/отключать в develop/production.
