@@ -15,7 +15,8 @@ function S3Uploader_S3Sender(emitter, config) {
   var _s3Client = knox.createClient(config);
 
   /**
-   * @listens {S3Uploader_EventService#emitMoveNeededEvent}
+   * @see {S3Uploader_EventService.emitMoveNeededEvent}
+   * @listens {S3Uploader_EventType.MOVE_NEEDED}
    */
   self.moveToStore = function (localPath, fsStats) {
     var s3FilePath = buildS3SrotePath(localPath);

@@ -33,7 +33,8 @@ function S3Uploader_LimitedQueue(emitter, config) {
   })();
 
   /**
-   * @listens {S3Uploader_EventService#emitEmergedFileEvent}
+   * @see {S3Uploader_EventService.emitEmergedFileEvent}
+   * @listens {S3Uploader_EventType.EMERGED_FILE}
    */
   self.addFileToQueue = function (localPath, fsStats) {
     _context = {
@@ -44,7 +45,8 @@ function S3Uploader_LimitedQueue(emitter, config) {
   };
 
   /**
-   * @listens {S3Uploader_EventService#emitMoveSucceedEvent}
+   * @see {S3Uploader_EventService.emitMoveSucceedEvent}
+   * @listens {S3Uploader_EventType.MOVE_SUCCEED}
    */
   self.continueProcessing = function () {
     // если все ок, то сбрасываем интервал ожидания обработки следующего события и
@@ -55,7 +57,8 @@ function S3Uploader_LimitedQueue(emitter, config) {
   };
 
   /**
-   * @listens {S3Uploader_EventService#emitMoveFailingEvent}
+   * @see {S3Uploader_EventService.emitMoveFailingEvent}
+   * @listens {S3Uploader_EventType.MOVE_FAILING}
    */
   self.slowDownProcessing = function () {
     // если ошибка, добавляем таск в конец очереди,

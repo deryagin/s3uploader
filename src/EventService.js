@@ -24,14 +24,14 @@ function S3Uploader_EventService() {
   };
 
   /**
-   * @emits S3Uploader_EventType.SERVICE_START
+   * @emits {S3Uploader_EventType.SERVICE_START}
    */
   self.emitServiceStartEvent = function () {
     return _emitter.emit(EventType.SERVICE_START);
   };
 
   /**
-   * @emits S3Uploader_EventType.SERVICE_STOP
+   * @emits {S3Uploader_EventType.SERVICE_STOP}
    */
   self.emitServiceStopEvent = function () {
     return _emitter.emit(EventType.SERVICE_STOP);
@@ -40,7 +40,7 @@ function S3Uploader_EventService() {
   /**
    * @param {String} localPath
    * @param {fs.Stats} fsStats
-   * @emits S3Uploader_EventType.EMERGED_FILE
+   * @emits {S3Uploader_EventType.EMERGED_FILE}
    */
   self.emitEmergedFileEvent = function (localPath, fsStats) {
     return _emitter.emit(EventType.EMERGED_FILE, localPath, fsStats);
@@ -49,7 +49,7 @@ function S3Uploader_EventService() {
   /**
    * @param {String} localPath
    * @param {fs.Stats} fsStats
-   * @emits S3Uploader_EventType.MOVE_NEEDED
+   * @emits {S3Uploader_EventType.MOVE_NEEDED}
    */
   self.emitMoveNeededEvent = function (localPath, fsStats) {
     return _emitter.emit(EventType.MOVE_NEEDED, localPath, fsStats);
@@ -58,7 +58,7 @@ function S3Uploader_EventService() {
   /**
    * @param {String} from
    * @param {String} to
-   * @emits S3Uploader_EventType.MOVE_SUCCEED
+   * @emits {S3Uploader_EventType.MOVE_SUCCEED}
    */
   self.emitMoveSucceedEvent = function (from, to) {
     return _emitter.emit(EventType.MOVE_SUCCEED, from, to);
@@ -68,7 +68,7 @@ function S3Uploader_EventService() {
    * @param {Error} error
    * @param {String} from
    * @param {String} to
-   * @emits S3Uploader_EventType.MOVE_FAILING
+   * @emits {S3Uploader_EventType.MOVE_FAILING}
    */
   self.emitMoveFailingEvent = function (error, from, to) {
     return _emitter.emit(EventType.MOVE_FAILING, error, from, to);

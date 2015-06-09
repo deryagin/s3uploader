@@ -5,14 +5,16 @@ function S3Uploader_Logger() {
   var self = this;
 
   /**
-   * @listens {S3Uploader_EventService#emitMoveSucceedEvent}
+   * @see {S3Uploader_EventService.emitMoveSucceedEvent}
+   * @listens {S3Uploader_EventType.MOVE_SUCCEED}
    */
   self.logSuccess = function (from, to) {
     console.log('%s SUCCESS: %s -> %s', new Date().toISOString(), from, to);
   };
 
   /**
-   * @listens {S3Uploader_EventService#emitMoveFailingEvent}
+   * @see {S3Uploader_EventService.emitMoveFailingEvent}
+   * @listens {S3Uploader_EventType.MOVE_FAILING}
    */
   self.logError = function (error, from, to) {
     console.error('%s ERROR: %s -> %s', new Date().toISOString(), from, to, context.error.message);

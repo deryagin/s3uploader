@@ -14,7 +14,8 @@ function S3Uploader_FileWatcher(emitter, config) {
   var _fsWatcher = new FSWatcher(config.options);
 
   /**
-   * @listens {S3Uploader_EventService#emitServiceStartEvent}
+   * @see {S3Uploader_EventService.emitServiceStartEvent}
+   * @listens {S3Uploader_EventType.SERVICE_START}
    */
   self.startWatching = function () {
     // todo: решить проблему, почему не резолвится?
@@ -23,7 +24,8 @@ function S3Uploader_FileWatcher(emitter, config) {
   };
 
   /**
-   * @listens {S3Uploader_EventService#emitServiceStopEvent}
+   * @see {S3Uploader_EventService.emitServiceStopEvent}
+   * @listens {S3Uploader_EventType.SERVICE_STOP}
    */
   self.stopWatching = function () {
     _fsWatcher.unwatch(config.path);
