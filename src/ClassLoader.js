@@ -1,11 +1,14 @@
 module.exports = S3Uploader_ClassLoader;
 
-function S3Uploader_ClassLoader() {
+/**
+ * @param {S3Uploader_Config.classLoader} config
+ */
+function S3Uploader_ClassLoader(config) {
 
   var self = this;
 
   /** @type {Object.<String, String>} - соответствие неймспейсов и путей в ФС */
-  var _nsMap = {};
+  var _nsMap = config.nsMap || {};
 
   /**
    * Загружает модуль проекта по full-qualified-classname.
@@ -31,6 +34,26 @@ function S3Uploader_ClassLoader() {
     return self;
   };
 
+  /**
+   * Возвращает список загруженных модулей проекта. Преднозначен для дебага.
+   * @todo: возможно этому методу тут не место?
+   * @returns {Object.<String>, <String>}
+   */
+  self.require.loaded = function () {
+    var loaded = {};
+    var cache = require.cache;
+    for (var filename in cache) {
+      var exports = cache[filename].exports;
+      var isFunction = typeof(exports) === 'function';
+      var key = (isFunction ? exports.name : filename.replace(s3uploader.ROOTDIR, ''));
+
+      if (-1 === filename.indexOf('node_modules')) {
+        loaded[key] = filename;
+      }
+    }
+    return loaded;
+  };
+
   function parseClassName(qualifiedName) {
     var lastSeparator = qualifiedName.lastIndexOf('_');
     return {
@@ -49,11 +72,3 @@ function S3Uploader_ClassLoader() {
     }
   }
 }
-
-//require('../global');
-//var loader = new S3Uploader_ClassLoader();
-//loader.addNamespace('S3Uploader', s3uploader.ROOTDIR + 'src/');
-//
-//var Logger = loader.require('S3Uploader_Logger');
-//var logger = new Logger();
-//logger.logSuccess('a', 'b');
