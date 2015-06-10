@@ -1,3 +1,6 @@
+cd /var/www/well/vpbx/vpbx/scripts/s3uploader/research/objects
+node-debug --save-live-edit=true --web-host=10.252.12.153 index.js
+
 [ ] добавить тесты
 [ ] Попробывать поиграться с process.paths и require.resolve() Попробывать убрать node_modules с глаз долой из корня проекта напр. в lib/node_modules. Хотя может так и не стоит. Т.к. не является общепринятым.
 [ ] Вернуться к JSDoc. config, emitter autocomplete, find usages.

@@ -17,7 +17,7 @@ function S3Uploader_FileWatcher(emitter, config) {
    * @see {S3Uploader_EventService.emitServiceStartEvent}
    * @listens {S3Uploader_EventType.SERVICE_START}
    */
-  self.startWatching = function () {
+  self.startWatching = function startWatching() {
     // todo: решить проблему, почему не резолвится?
     _fsWatcher.add(config.path);
     _fsWatcher.on('add', emitter.emitEmergedFileEvent);
@@ -27,7 +27,7 @@ function S3Uploader_FileWatcher(emitter, config) {
    * @see {S3Uploader_EventService.emitServiceStopEvent}
    * @listens {S3Uploader_EventType.SERVICE_STOP}
    */
-  self.stopWatching = function () {
+  self.stopWatching = function stopWatching() {
     _fsWatcher.unwatch(config.path);
   };
 }

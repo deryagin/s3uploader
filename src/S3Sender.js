@@ -18,7 +18,7 @@ function S3Uploader_S3Sender(emitter, config) {
    * @see {S3Uploader_EventService.emitMoveNeededEvent}
    * @listens {S3Uploader_EventType.MOVE_NEEDED}
    */
-  self.moveToStore = function (localPath, fsStats) {
+  self.moveToStore = function moveToStore(localPath, fsStats) {
     var s3FilePath = buildS3SrotePath(localPath);
     var s3StoreRequest = createS3StoreRequest(s3FilePath, fsStats.size);
     var s3ResponseHandler = createS3ResponseHandler(localPath, s3StoreRequest.url);
@@ -51,7 +51,7 @@ function S3Uploader_S3Sender(emitter, config) {
 
   // todo: подумать, как избавиться от этого замыкания
   function createS3ResponseHandler(localPath, s3Url) {
-    return function (s3Response) {
+    return function s3ResponseHandler(s3Response) {
       if (200 == s3Response.statusCode) {
         emitter.emitMoveSucceedEvent(localPath, s3Url);
         return fs.unlink(localPath);

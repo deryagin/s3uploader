@@ -26,11 +26,13 @@ function S3Uploader_Application(emitter, config) {
   /** @type {S3Uploader_Logger} */
   var _logger = new Logger();
 
+  // todo: возможно лучше внешние зависимости обявлять как self._fileWatcher. Тогда они будут доступны снаружи для дебага и тестирования.
+  // Так например сделано в стандартном events.EventEmitter. Для которого можно получить events.EventEmitter._events.
   (function _eventness() {
     emitter.on(EventType.SERVICE_START, _fileWatcher.startWatching);
     emitter.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
     emitter.on(EventType.MOVE_NEEDED, _s3Sender.moveToStore);
-    emitter.on(EventType.MOVE_SUCCEED, _limitedQueue.continueProcessing);
+    emitter.on(EventType.MOVE_SUCCEED, _limitedQueue.speedUpProcessing);
     emitter.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
     emitter.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
     addLoggerListener();
