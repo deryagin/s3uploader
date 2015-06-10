@@ -14,3 +14,7 @@ function S3Uploader_EventType() {
 
   S3Uploader_EventType.MOVE_FAILING = 'MOVE_FAILING';
 }
+
+// вызов функции нужен для инициализации констант, поскольку
+// они определены внутри тела функции, а не снаружи
+S3Uploader_EventType();
