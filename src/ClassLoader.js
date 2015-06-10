@@ -16,7 +16,7 @@ function S3Uploader_ClassLoader(config) {
    * @param {String} qualifiedName
    * @return {Object|Function} - require.module.exports
    */
-  self.require = function (qualifiedName) {
+  self.require = function require(qualifiedName) {
     var parsed = parseClassName(qualifiedName);
     var directory = findDirectory(parsed.namespace);
     return require(directory + parsed.className);
@@ -29,7 +29,7 @@ function S3Uploader_ClassLoader(config) {
    * @param {String} pathPrefix - абсолютный путь в ФС
    * @return {S3Uploader_ClassLoader}
    */
-  self.addNamespace = function (nsPrefix, pathPrefix) {
+  self.addNamespace = function addNamespace(nsPrefix, pathPrefix) {
     _nsMap[nsPrefix] = pathPrefix;
     return self;
   };
@@ -39,7 +39,7 @@ function S3Uploader_ClassLoader(config) {
    * @todo: возможно этому методу тут не место?
    * @returns {Object.<String>, <String>}
    */
-  self.require.loaded = function () {
+  self.require.loaded = function loaded() {
     var loaded = {};
     var cache = require.cache;
     for (var filename in cache) {

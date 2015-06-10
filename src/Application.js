@@ -38,7 +38,7 @@ function S3Uploader_Application(emitter, config) {
     addLoggerListener();
   })();
 
-  self.start = function () {
+  self.start = function start() {
     emitter.emitServiceStartEvent();
   };
 

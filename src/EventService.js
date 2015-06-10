@@ -18,22 +18,30 @@ function S3Uploader_EventService() {
    * @param {Function} listener
    * @returns {S3Uploader_EventService}
    */
-  self.on = function (event, listener) {
+  self.on = function on(event, listener) {
     _emitter.on(event, listener);
     return self;
+  };
+
+  // todo: добавить в EventService метод отладки,
+  // выводящий в формате "EVENT_NAME": ["ClassName1.methodName1", "fileName2.funcName2"]
+  // можно использовать для этого события 'newListener' и 'removeListener'
+  // Или можно сделать так, чтобы у методов хэндлеров было заполнено поле method.name.
+  self.listeners = function listeners(event) {
+
   };
 
   /**
    * @emits {S3Uploader_EventType.SERVICE_START}
    */
-  self.emitServiceStartEvent = function () {
+  self.emitServiceStartEvent = function emitServiceStartEvent() {
     return _emitter.emit(EventType.SERVICE_START);
   };
 
   /**
    * @emits {S3Uploader_EventType.SERVICE_STOP}
    */
-  self.emitServiceStopEvent = function () {
+  self.emitServiceStopEvent = function emitServiceStopEvent() {
     return _emitter.emit(EventType.SERVICE_STOP);
   };
 
@@ -42,7 +50,7 @@ function S3Uploader_EventService() {
    * @param {fs.Stats} fsStats
    * @emits {S3Uploader_EventType.EMERGED_FILE}
    */
-  self.emitEmergedFileEvent = function (localPath, fsStats) {
+  self.emitEmergedFileEvent = function emitEmergedFileEvent(localPath, fsStats) {
     return _emitter.emit(EventType.EMERGED_FILE, localPath, fsStats);
   };
 
@@ -51,7 +59,7 @@ function S3Uploader_EventService() {
    * @param {fs.Stats} fsStats
    * @emits {S3Uploader_EventType.MOVE_NEEDED}
    */
-  self.emitMoveNeededEvent = function (localPath, fsStats) {
+  self.emitMoveNeededEvent = function emitMoveNeededEvent(localPath, fsStats) {
     return _emitter.emit(EventType.MOVE_NEEDED, localPath, fsStats);
   };
 
@@ -60,7 +68,7 @@ function S3Uploader_EventService() {
    * @param {String} to
    * @emits {S3Uploader_EventType.MOVE_SUCCEED}
    */
-  self.emitMoveSucceedEvent = function (from, to) {
+  self.emitMoveSucceedEvent = function emitMoveSucceedEvent(from, to) {
     return _emitter.emit(EventType.MOVE_SUCCEED, from, to);
   };
 
@@ -70,7 +78,7 @@ function S3Uploader_EventService() {
    * @param {String} to
    * @emits {S3Uploader_EventType.MOVE_FAILING}
    */
-  self.emitMoveFailingEvent = function (error, from, to) {
+  self.emitMoveFailingEvent = function emitMoveFailingEvent(error, from, to) {
     return _emitter.emit(EventType.MOVE_FAILING, error, from, to);
   };
 }
