@@ -26,10 +26,12 @@ function S3Uploader_EventService() {
   // todo: добавить в EventService метод отладки,
   // выводящий в формате "EVENT_NAME": ["ClassName1.methodName1", "fileName2.funcName2"]
   // можно использовать для этого события 'newListener' и 'removeListener'
-  // Или можно сделать так, чтобы у методов хэндлеров было заполнено поле method.name.
-  self.listeners = function listeners(event) {
-
-  };
+  // Или можно сделать так, чтобы у методов хэндлеров было заполнено поле method.name
+  // и сделать _emitter доступным из вне (self._emitter = new EventEmitter()). Тогда события
+  // можно будет в любой момент посмотреть как index.js в Call Stack, emitter._emitter._events
+  //self.listeners = function listeners(event) {
+  //
+  //};
 
   /**
    * @emits {S3Uploader_EventType.SERVICE_START}

@@ -19,7 +19,7 @@ function S3Uploader_ClassLoader(config) {
   self.require = function require(qualifiedName) {
     var parsed = parseClassName(qualifiedName);
     var directory = findDirectory(parsed.namespace);
-    return require(directory + parsed.className);
+    return module.require(directory + parsed.className);
   };
 
   /**
