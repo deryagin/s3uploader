@@ -3,7 +3,9 @@ node-debug --save-live-edit=true --web-host=10.252.12.153 index.js
 
 [ ] Доработать, чтобы все заработало.
 [ ] Добавить тесты для всего.
-[ ] Перенести ClassLoader в lib. В последствии оформить его как отдельный модуль.
+[ ] Перенести ClassLoader в lib. В последствии оформить его как отдельный модуль. Проверить соответствие PSR-4.
+[ ] Логгер, проверить соответствие PSR-3. Вынести в lib.
+[ ] Изучить вопрос использования scoped packages (@organization/package) вместо папки lib. (https://docs.npmjs.com/misc/scope, https://docs.npmjs.com/getting-started/scoped-packages)
 [ ] Попробывать поиграться с process.paths и require.resolve() Попробывать убрать node_modules с глаз долой из корня проекта напр. в lib/node_modules. Хотя может так и не стоит. Т.к. не является общепринятым.
 [ ] Вернуться к JSDoc. config, emitter autocomplete, find usages.
 [ ] Продумать, а не подключать ли зависимости через один файл, зредварительно зареквайрив их в свойства module.exports этого файла.
