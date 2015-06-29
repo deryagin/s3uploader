@@ -41,7 +41,7 @@ function S3Uploader_S3Sender(emitter, config) {
     // в CEPH как свойство зугруженного файла. Впоследствии, этот
     // заголовок будет добавляться в респонз при скачивании
     // файла из CEPH по прямому линку. Content-Disposition нужен,
-    // чтобы файл (mp3) не открывался в браузере, а предлагал сохраниться.
+    // чтобы браузер не открывал файл (mp3), а предлагал его сохранить.
     return _s3Client.put(storePath, {
       'Content-Length': fileSize,
       'Content-Type': 'audio/mpeg',
@@ -49,7 +49,6 @@ function S3Uploader_S3Sender(emitter, config) {
     });
   }
 
-  // todo: подумать, как избавиться от этого замыкания
   function createS3ResponseHandler(localPath, s3Url) {
     return function s3ResponseHandler(s3Response) {
       if (200 == s3Response.statusCode) {
@@ -57,6 +56,7 @@ function S3Uploader_S3Sender(emitter, config) {
         return fs.unlink(localPath);
       }
 
+      // todo: не помешает передавать сообщение об ошибке из самого s3Response
       var error = new Error('S3 request has returned not "200 OK" code!');
       emitter.emitMoveFailingEvent(error, localPath, s3Url);
     };
