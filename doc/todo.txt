@@ -6,11 +6,11 @@ node-debug --save-live-edit=true --web-host=10.252.12.153 index.js
 [ ] Перенести ClassLoader в lib. В последствии оформить его как отдельный модуль. Проверить соответствие PSR-4.
 [ ] Логгер, проверить соответствие PSR-3. Вынести в lib.
 [ ] Изучить вопрос использования scoped packages (@organization/package) вместо папки lib. (https://docs.npmjs.com/misc/scope, https://docs.npmjs.com/getting-started/scoped-packages)
-[ ] Попробывать поиграться с process.paths и require.resolve() Попробывать убрать node_modules с глаз долой из корня проекта напр. в lib/node_modules. Хотя может так и не стоит. Т.к. не является общепринятым.
 [ ] Вернуться к JSDoc. config, emitter autocomplete, find usages.
 [ ] Продумать, а не подключать ли зависимости через один файл, зредварительно зареквайрив их в свойства module.exports этого файла.
 [ ] Посмотреть, как вместо @see можно использовать @lisntens так, чтобы работало find definitions.
 [ ] Подумать, как можно использовать JSDoc-тэги @module и @namespace + http://habrahabr.ru/post/259281/. Возможно получится хорошая альтернатива Zend 1.0 namespacing.
+[?] Попробывать поиграться с process.paths и require.resolve() Попробывать убрать node_modules с глаз долой из корня проекта напр. в lib/node_modules. Хотя может так и не стоит. Т.к. не является общепринятым.
 [?] Логика index.js должна быть перенесена в run/s3uploader.js. А index.js должен просто эксспортировать все зависимости из src.
 [-] Сделать, чтобы S3Uploader_ClassLoader брал неймспейс по наиболее длинному совпадению. Это лишнее. Пускай ClassLoader остается мексимально тупым.
 [x] Доработать global.s3uploader.require.

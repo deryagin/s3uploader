@@ -15,26 +15,24 @@ function S3Uploader_Application(emitter, config) {
   var self = this;
 
   /** @type {S3Uploader_FileWatcher} */
-  var _fileWatcher = new FileWatcher(emitter, config.chokidar);
+  self._fileWatcher = new FileWatcher(emitter, config.chokidar);
 
   /** @type {S3Uploader_LimitedQueue} */
-  var _limitedQueue = new LimitedQueue(emitter, config.tasks_queue);
+  self._limitedQueue = new LimitedQueue(emitter, config.tasks_queue);
 
   /** @type {S3Uploader_S3Sender} */
-  var _s3Sender = new S3Sender(emitter, config.knox);
+  self._s3Sender = new S3Sender(emitter, config.knox);
 
   /** @type {S3Uploader_Logger} */
-  var _logger = new Logger();
+  self._logger = new Logger();
 
-  // todo: возможно лучше внешние зависимости обявлять как self._fileWatcher. Тогда они будут доступны снаружи для дебага и тестирования.
-  // Так например сделано в стандартном events.EventEmitter. Для которого можно получить events.EventEmitter._events.
   (function _eventness() {
-    emitter.on(EventType.SERVICE_START, _fileWatcher.startWatching);
-    emitter.on(EventType.EMERGED_FILE, _limitedQueue.addFileToQueue);
-    emitter.on(EventType.MOVE_NEEDED, _s3Sender.moveToStore);
-    emitter.on(EventType.MOVE_SUCCEED, _limitedQueue.speedUpProcessing);
-    emitter.on(EventType.MOVE_FAILING, _limitedQueue.slowDownProcessing);
-    emitter.on(EventType.SERVICE_STOP, _fileWatcher.stopWatching);
+    emitter.on(EventType.SERVICE_START, self._fileWatcher.startWatching);
+    emitter.on(EventType.EMERGED_FILE, self._limitedQueue.addFileToQueue);
+    emitter.on(EventType.MOVE_NEEDED, self._s3Sender.moveToStore);
+    emitter.on(EventType.MOVE_SUCCEED, self._limitedQueue.speedUpProcessing);
+    emitter.on(EventType.MOVE_FAILING, self._limitedQueue.slowDownProcessing);
+    emitter.on(EventType.SERVICE_STOP, self._fileWatcher.stopWatching);
     addLoggerListener();
   })();
 
@@ -42,9 +40,9 @@ function S3Uploader_Application(emitter, config) {
     emitter.emitServiceStartEvent();
   };
 
-  // вызуально отделяем логирование от основного блока обработчиков событий
+  // визуально отделяем логирование от основного блока обработчиков событий, возможно ее лучше будет вообще вынести в отдельное место
   function addLoggerListener() {
-    emitter.on(EventType.MOVE_SUCCEED, _logger.logSuccess);
-    emitter.on(EventType.MOVE_FAILING, _logger.logError);
+    emitter.on(EventType.MOVE_SUCCEED, self._logger.logSuccess);
+    emitter.on(EventType.MOVE_FAILING, self._logger.logError);
   }
 }
