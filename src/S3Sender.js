@@ -1,4 +1,6 @@
 var fs = require('fs');
+var path = require('path');
+var util = require('util');
 var knox = require('knox');
 
 module.exports = S3Uploader_S3Sender;
@@ -53,11 +55,12 @@ function S3Uploader_S3Sender(emitter, config) {
     return function s3ResponseHandler(s3Response) {
       if (200 == s3Response.statusCode) {
         emitter.emitMoveSucceedEvent(localPath, s3Url);
+
+        // todo: тут не должно выполнятся реальной работы, а должно всего лишь вызываться emitMoveSucceedEvent или emitMoveFailingEvent
         return fs.unlink(localPath);
       }
 
-      // todo: не помешает передавать сообщение об ошибке из самого s3Response
-      var error = new Error('S3 request has returned not "200 OK" code!');
+      var error = new Error(util.format('S3 response has returned "%d" code!', s3Response.statusCode));
       emitter.emitMoveFailingEvent(error, localPath, s3Url);
     };
   }

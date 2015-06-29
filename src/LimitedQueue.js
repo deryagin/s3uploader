@@ -10,9 +10,6 @@ function S3Uploader_LimitedQueue(emitter, config) {
 
   var self = this;
 
-  /** @type {String} - внутреннее событие для _taskQueue */
-  var FILE_ADDED_EVENT = 'file:added';
-
   /** @type {tasks-queue.TaskQueue} */
   var _taskQueue = new TaskQueue();
 
@@ -29,7 +26,7 @@ function S3Uploader_LimitedQueue(emitter, config) {
   })();
 
   (function _eventness() {
-    _taskQueue.on(FILE_ADDED_EVENT, raiseMoveNeededEvent)
+    _taskQueue.on('file:added', raiseMoveNeededEvent)
   })();
 
   /**
@@ -37,7 +34,7 @@ function S3Uploader_LimitedQueue(emitter, config) {
    * @listens {S3Uploader_EventType.EMERGED_FILE}
    */
   self.addFileToQueue = function addFileToQueue(localPath, fsStats) {
-    _taskQueue.pushTask(FILE_ADDED_EVENT, { 'localPath': localPath, 'fsStats': fsStats })
+    _taskQueue.pushTask('file:added', { 'localPath': localPath, 'fsStats': fsStats })
   };
 
   /**
@@ -60,7 +57,7 @@ function S3Uploader_LimitedQueue(emitter, config) {
     // если ошибка, добавляем таск в конец очереди, чтобы снова попытаться отправить файл в S3
     // увеличиваем интервал между попытками, завершаем обработку текущего события вызовом _jinn.done()
     slowDownTaskQueue();
-    _taskQueue.pushTask(FILE_ADDED_EVENT, _eventContext);
+    _taskQueue.pushTask('file:added', _eventContext);
     _jinn.done();
     _jinn = null;
   };

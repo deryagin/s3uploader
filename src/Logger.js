@@ -17,6 +17,6 @@ function S3Uploader_Logger() {
    * @listens {S3Uploader_EventType.MOVE_FAILING}
    */
   self.logError = function logError(error, from, to) {
-    console.error('%s ERROR: %s -> %s', new Date().toISOString(), from, to, context.error.message);
+    console.error('%s ERROR: %s -> %s', new Date().toISOString(), from, to, error.message);
   };
 }

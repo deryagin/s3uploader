@@ -3,6 +3,7 @@ var EventType = s3uploader.require('S3Uploader_EventType');
 
 module.exports = S3Uploader_EventService;
 
+// todo: Нужно иметь возможность как-то выводить последовательность возникающих событий. Нужно для дебага.
 function S3Uploader_EventService() {
 
   var self = this;
