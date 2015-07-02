@@ -33,16 +33,12 @@ function S3Uploader_Application(emitter, config) {
     emitter.on(EventType.MOVE_SUCCEED, self._limitedQueue.speedUpProcessing);
     emitter.on(EventType.MOVE_FAILING, self._limitedQueue.slowDownProcessing);
     emitter.on(EventType.SERVICE_STOP, self._fileWatcher.stopWatching);
-    addLoggerListener();
+
+    emitter.on(EventType.MOVE_SUCCEED, self._logger.logSuccess);
+    emitter.on(EventType.MOVE_FAILING, self._logger.logError);
   })();
 
   self.start = function start() {
     emitter.emitServiceStartEvent();
   };
-
-  // визуально отделяем логирование от основного блока обработчиков событий, возможно ее лучше будет вообще вынести в отдельное место
-  function addLoggerListener() {
-    emitter.on(EventType.MOVE_SUCCEED, self._logger.logSuccess);
-    emitter.on(EventType.MOVE_FAILING, self._logger.logError);
-  }
 }

@@ -46,7 +46,6 @@ function S3Uploader_LimitedQueue(emitter, config) {
     // завершаем обработку текущего события вызовом _jinn.done()
     _taskQueue.setMinTime(config.defaultInterval);
     _jinn.done();
-    _jinn = null;
   };
 
   /**
@@ -58,7 +57,6 @@ function S3Uploader_LimitedQueue(emitter, config) {
     // увеличиваем интервал между попытками, завершаем обработку текущего события вызовом _jinn.done()
     slowDownTaskQueue();
     _jinn.done();
-    _jinn = null;
     _taskQueue.pushTask('file:added', _eventContext);
   };
 

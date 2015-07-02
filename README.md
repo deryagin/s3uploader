@@ -256,3 +256,7 @@ S3Uploader_EventType является статическим классом, к�
     console.log('EVENT EMMITED: ', eventName);
   };
 ```
+
+Запуск через nodemon:
+`nodemon -w src -q --exec npm run debug`
+

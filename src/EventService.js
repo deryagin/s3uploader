@@ -11,8 +11,8 @@ function S3Uploader_EventService() {
   self._emitter = new EventEmitter();
 
   //self._emitter.emit = function loggedEmit(eventName) {
-  //  EventEmitter.prototype.emit.apply(self._emitter, arguments);
   //  console.log(eventName);
+  //  EventEmitter.prototype.emit.apply(self._emitter, arguments);
   //};
 
   /**
