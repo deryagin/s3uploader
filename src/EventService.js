@@ -3,13 +3,12 @@ var EventType = s3uploader.require('S3Uploader_EventType');
 
 module.exports = S3Uploader_EventService;
 
-// todo: Нужно иметь возможность как-то выводить последовательность возникающих событий. Нужно для дебага.
 function S3Uploader_EventService() {
 
   var self = this;
 
   /** @type {events.EventEmitter} */
-  var _emitter = new EventEmitter();
+  self._emitter = new EventEmitter();
 
   /**
    * Позволяет подписаться на какое-либо событие.
@@ -20,7 +19,7 @@ function S3Uploader_EventService() {
    * @returns {S3Uploader_EventService}
    */
   self.on = function on(event, listener) {
-    _emitter.on(event, listener);
+    self._emitter.on(event, listener);
     return self;
   };
 
@@ -28,14 +27,14 @@ function S3Uploader_EventService() {
    * @emits {S3Uploader_EventType.SERVICE_START}
    */
   self.emitServiceStartEvent = function emitServiceStartEvent() {
-    return _emitter.emit(EventType.SERVICE_START);
+    return self._emitter.emit(EventType.SERVICE_START);
   };
 
   /**
    * @emits {S3Uploader_EventType.SERVICE_STOP}
    */
   self.emitServiceStopEvent = function emitServiceStopEvent() {
-    return _emitter.emit(EventType.SERVICE_STOP);
+    return self._emitter.emit(EventType.SERVICE_STOP);
   };
 
   /**
@@ -44,7 +43,7 @@ function S3Uploader_EventService() {
    * @emits {S3Uploader_EventType.EMERGED_FILE}
    */
   self.emitEmergedFileEvent = function emitEmergedFileEvent(localPath, fsStats) {
-    return _emitter.emit(EventType.EMERGED_FILE, localPath, fsStats);
+    return self._emitter.emit(EventType.EMERGED_FILE, localPath, fsStats);
   };
 
   /**
@@ -53,7 +52,7 @@ function S3Uploader_EventService() {
    * @emits {S3Uploader_EventType.MOVE_NEEDED}
    */
   self.emitMoveNeededEvent = function emitMoveNeededEvent(localPath, fsStats) {
-    return _emitter.emit(EventType.MOVE_NEEDED, localPath, fsStats);
+    return self._emitter.emit(EventType.MOVE_NEEDED, localPath, fsStats);
   };
 
   /**
@@ -62,7 +61,7 @@ function S3Uploader_EventService() {
    * @emits {S3Uploader_EventType.MOVE_SUCCEED}
    */
   self.emitMoveSucceedEvent = function emitMoveSucceedEvent(from, to) {
-    return _emitter.emit(EventType.MOVE_SUCCEED, from, to);
+    return self._emitter.emit(EventType.MOVE_SUCCEED, from, to);
   };
 
   /**
@@ -72,6 +71,6 @@ function S3Uploader_EventService() {
    * @emits {S3Uploader_EventType.MOVE_FAILING}
    */
   self.emitMoveFailingEvent = function emitMoveFailingEvent(error, from, to) {
-    return _emitter.emit(EventType.MOVE_FAILING, error, from, to);
+    return self._emitter.emit(EventType.MOVE_FAILING, error, from, to);
   };
 }
