@@ -57,9 +57,9 @@ function S3Uploader_LimitedQueue(emitter, config) {
     // если ошибка, добавляем таск в конец очереди, чтобы снова попытаться отправить файл в S3
     // увеличиваем интервал между попытками, завершаем обработку текущего события вызовом _jinn.done()
     slowDownTaskQueue();
-    _taskQueue.pushTask('file:added', _eventContext);
     _jinn.done();
     _jinn = null;
+    _taskQueue.pushTask('file:added', _eventContext);
   };
 
   /**
