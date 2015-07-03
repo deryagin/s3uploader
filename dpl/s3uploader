@@ -1,0 +1,135 @@
+#!/bin/bash
+#
+# Service script for a Node.js application running under Forever.
+# https://www.exratione.com/2011/07/running-a-nodejs-server-as-a-service-using-forever/
+#
+# This is suitable for Fedora, Red Hat, CentOS and similar distributions.
+# It will not work on Ubuntu or other Debian-style distributions!
+#
+# There is some perhaps unnecessary complexity going on in the relationship between
+# Forever and the server process. See: https://github.com/indexzero/forever
+#
+# 1) Forever starts its own watchdog process, and keeps its own configuration data
+# in /var/run/forever.
+#
+# 2) If the process dies, Forever will restart it: if it fails but continues to run,
+# it won't be restarted.
+#
+# 3) If the process is stopped via this script, the pidfile is left in place; this
+# helps when issues happen with failed stop attempts.
+#
+# 4) Which means the check for running/not running is complex, and involves parsing
+# of the Forever list output.
+#
+# chkconfig: 345 97 13
+# description: Amazon S3 file upload daemon for VPBX
+# processname: s3uploader
+# pidfile: /var/run/s3uploader.pid
+# logfile: /var/log/s3uploader.log
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+NAME=s3uploader
+SOURCE_FILE=index.js
+SOURCE_DIR=/var/www/well/vpbx/daemons/s3uploader
+
+user=asterisk
+group=asterisk
+
+pidfile=/var/run/$NAME.pid
+logfile=/var/log/asterisk/$NAME.log
+
+FOREVER=/usr/bin/forever
+node=node
+sed=sed
+
+export PATH=$PATH:/home/node/local/node/bin
+export NODE_PATH=$NODE_PATH:/home/node/local/node/lib/node_modules
+
+start() {
+  echo "Starting $NAME node instance..."
+
+  if [ "$foreverid" == "" ]; then
+    # Create the log and pid files, making sure that
+    # the target use has access to them
+    touch $logfile
+    chown $user:$group $logfile
+
+    touch $pidfile
+    chown $user:$group $pidfile
+
+    # Launch the application
+    $FOREVER start --pidFile $pidfile -l $logfile -a -d $SOURCE_DIR/$SOURCE_FILE
+    RETVAL=$?
+  else
+    echo "Instance already running!"
+    RETVAL=0
+  fi
+}
+
+stop() {
+  echo "Shutting down $NAME node instance..."
+  if [ "$foreverid" != "" ]; then
+    $FOREVER stop $foreverid
+    RETVAL=$?
+  else
+    echo "Instance is not running!";
+    RETVAL=0
+  fi
+}
+
+restart() {
+  echo "Restarting $NAME node instance..."
+  if [ "$foreverid" != "" ]; then
+    $FOREVER restart $foreverid
+    RETVAL=$?
+  else
+    echo "Instance is not running!";
+    RETVAL=0
+  fi
+}
+
+list() {
+  $FOREVER list
+  RETVAL=$?
+}
+
+if [ -f $pidfile ]; then
+  read pid < $pidfile
+else
+  pid=""
+fi
+
+if [ "$pid" != "" ]; then
+  # Gnarly sed usage to obtain the foreverid.
+  foreverid=`$FOREVER list --plain | $sed -n 's/^data:\s\+\[\([0-9]\+\)\]\s\+.*\s\+'$pid'\s\+\S\+\s\+[0-9]\+:[0-9]\+:[0-9]\+:[0-9]\+\.[0-9]\+\s*$/\1/p'`
+else
+  foreverid=""
+fi
+
+RETVAL=0
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  status)
+    status -p ${pidfile}
+    ;;
+  list)
+    list
+    ;;
+  *)
+    echo "Usage:  {start|stop|restart|status|list}"
+    exit 1
+    ;;
+esac
+
+exit $RETVAL
