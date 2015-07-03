@@ -10,6 +10,6 @@
   },
   "scripts": {
     "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js",
-    "test": "mocha --require mocha.js"
+    "test": "mocha --require=./global.js --require=./loader.js"
   }
 }
