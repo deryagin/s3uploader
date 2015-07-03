@@ -9,6 +9,7 @@
     "tasks-queue": "0.0.2"
   },
   "scripts": {
-    "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js"
+    "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js",
+    "test": "mocha --require mocha.js"
   }
 }
