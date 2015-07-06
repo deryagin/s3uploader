@@ -3,13 +3,16 @@
   "version": "0.0.1",
   "description": "Демон, выполняющий слежение за появлением новых файлов в ФС и отправляющий их на s3-сервер.",
   "main": "./index.js",
+  "scripts": {
+    "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js",
+    "test": "./node_modules/mocha/bin/mocha --require=./global.js --require=./loader.js"
+  },
   "dependencies": {
     "chokidar": "^1.0.1",
     "knox": "^0.9.2",
     "tasks-queue": "0.0.2"
   },
-  "scripts": {
-    "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js",
-    "test": "mocha --require=./global.js --require=./loader.js"
+  "devDependencies": {
+    "mocha": "^2.2.5"
   }
 }
