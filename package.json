@@ -13,6 +13,9 @@
     "tasks-queue": "0.0.2"
   },
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "chai": "^3.0.0",
+    "sinon": "^1.15.4",
+    "fixture-stdout": "^0.2.1"
   }
 }
