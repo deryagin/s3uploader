@@ -5,7 +5,7 @@ var Logger = s3uploader.require('S3Uploader_Logger');
 describe('S3Uploader_LoggerTest', function () {
 
   /** @type {S3Uploader_Logger} */
-  var _logger = new Logger();
+  var _logger = null;
 
   /** @type {String} - данные, выводимые в stdout/stderr в тестах */
   var _output = '';
@@ -14,6 +14,7 @@ describe('S3Uploader_LoggerTest', function () {
   var ISO8601 = /.*\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z.*/;
 
   beforeEach(function () {
+    _logger = new Logger();
     _output = '';
   });
 
