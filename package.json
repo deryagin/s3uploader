@@ -5,7 +5,8 @@
   "main": "./index.js",
   "scripts": {
     "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js",
-    "test": "./node_modules/mocha/bin/mocha --require=./global.js --require=./loader.js --timeout=100"
+    "test": "./node_modules/mocha/bin/mocha --require=./global.js --require=./loader.js --timeout=100 --check-leaks",
+    "cover": "istanbul cover --config=./test/istanbul.yml node_modules/mocha/bin/_mocha -- --reporter spec"
   },
   "dependencies": {
     "chokidar": "^1.0.1",
@@ -16,6 +17,7 @@
     "mocha": "^2.2.5",
     "chai": "^3.0.0",
     "sinon": "^1.15.4",
+    "istanbul": "^0.3.17",
     "fixture-stdout": "^0.2.1"
   }
 }
