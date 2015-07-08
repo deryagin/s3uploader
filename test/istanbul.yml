@@ -1,20 +1,21 @@
 verbose: false
 instrumentation:
-  root: ../
+  root: . # указывается относительно pwd; запускается из корня проекта
   default-excludes: true
-  excludes: []
+  excludes: ['**/tmp/**']
   embed-source: false
   variable: __coverage__
   compact: true
   preserve-comments: false
   complete-copy: false
   save-baseline: false
-  baseline-file: ../coverage/coverage-baseline.json
+  baseline-file: ./coverage/coverage-baseline.json
+  include-all-sources: true
 reporting:
   print: both # summary|detail|both|none
   reports:
     - lcov
-  dir: ../coverage
+  dir: ./coverage
   watermarks:
     statements: [50, 80]
     lines: [50, 80]
