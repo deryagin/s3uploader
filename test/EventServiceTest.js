@@ -1,6 +1,6 @@
-var assert = require('chai').assert;
 var EventService = s3uploader.require('S3Uploader_EventService');
 var EventType = s3uploader.require('S3Uploader_EventType');
+var assert = require('chai').assert;
 
 describe('S3Uploader_EventService', function () {
 
