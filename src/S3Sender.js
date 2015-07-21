@@ -7,7 +7,7 @@ module.exports = S3Uploader_S3Sender;
 
 /**
  * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Config.knox} config
+ * @param {S3Uploader_Configuration.knox} config
  */
 function S3Uploader_S3Sender(emitter, config) {
 

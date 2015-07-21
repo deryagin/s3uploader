@@ -1,7 +1,7 @@
 module.exports = S3Uploader_ClassLoader;
 
 /**
- * @param {S3Uploader_Config.classLoader} config
+ * @param {S3Uploader_Configuration.classLoader} config
  */
 function S3Uploader_ClassLoader(config) {
 

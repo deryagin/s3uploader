@@ -4,7 +4,7 @@ module.exports = S3Uploader_LimitedQueue;
 
 /**
  * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Config.tasks_queue} config
+ * @param {S3Uploader_Configuration.tasks_queue} config
  */
 function S3Uploader_LimitedQueue(emitter, config) {
 

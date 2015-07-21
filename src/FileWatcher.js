@@ -4,7 +4,7 @@ module.exports = S3Uploader_FileWatcher;
 
 /**
  * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Config.chokidar} config
+ * @param {S3Uploader_Configuration.chokidar} config
  */
 function S3Uploader_FileWatcher(emitter, config) {
 

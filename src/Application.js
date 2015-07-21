@@ -8,7 +8,7 @@ module.exports = S3Uploader_Application;
 
 /**
  * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Config} config
+ * @param {S3Uploader_Configuration} config
  */
 function S3Uploader_Application(emitter, config) {
 

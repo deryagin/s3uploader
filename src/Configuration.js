@@ -1,6 +1,6 @@
-module.exports.instance = new S3Uploader_Config();
+module.exports = S3Uploader_Configuration;
 
-function S3Uploader_Config() {
+function S3Uploader_Configuration() {
 
   var self = this;
 
