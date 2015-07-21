@@ -1,5 +1,5 @@
-var config = require('./config').instance;
-var ClassLoader = require('./src/ClassLoader');
+var namespaceMap = require('./package.json').s3uploader.autoload;
+var Autoloader = require('./src/Autoloader');
 
-var classLoader = new ClassLoader(config.classLoader);
-global.s3uploader.require = classLoader.require;
+var autoloader = new Autoloader(s3uploader.ROOTDIR, namespaceMap);
+global.s3uploader.require = autoloader.require;

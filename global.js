@@ -5,17 +5,9 @@
  */
 global.s3uploader = {
 
-  /**
-   * Абсолютный путь к корневой директории проекта.
-   *
-   * @type {String}
-   */
+  /** @type {String} - абсолютный путь к корневой директории проекта. */
   ROOTDIR: __dirname + '/',
 
-  /**
-   * Метод для загрузки классов.
-   *
-   * @type {S3Uploader_ClassLoader.require}
-   */
+  /** @type {S3Uploader_Autoloader.require} - метод для загрузки классов. */
   require: null
 };

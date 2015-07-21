@@ -4,12 +4,6 @@ function S3Uploader_Configuration() {
 
   var self = this;
 
-  self.classLoader = {
-    nsMap: {
-      S3Uploader: s3uploader.ROOTDIR + 'src/'
-    }
-  };
-
   self.chokidar = {
     path: '/var/spool/mcn/vpbx/records',
     options: {

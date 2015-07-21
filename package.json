@@ -8,6 +8,11 @@
     "test": "./node_modules/mocha/bin/mocha --require=./global.js --require=./loader.js --timeout=100 --check-leaks",
     "cover": "istanbul cover --config=./test/istanbul.yml node_modules/mocha/bin/_mocha -- --reporter progress"
   },
+  "s3uploader": {
+    "autoload": {
+      "S3Uploader": "src/"
+    }
+  },
   "dependencies": {
     "chokidar": "^1.0.1",
     "knox": "^0.9.2",
