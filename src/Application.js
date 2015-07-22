@@ -34,6 +34,8 @@ function S3Uploader_Application(emitter, config) {
     emitter.on(EventType.MOVE_FAILING, self._limitedQueue.slowDownProcessing);
     emitter.on(EventType.SERVICE_STOP, self._fileWatcher.stopWatching);
 
+    emitter.on(EventType.SERVICE_START, self._logger.logStart);
+    emitter.on(EventType.SERVICE_STOP, self._logger.logStop);
     emitter.on(EventType.MOVE_SUCCEED, self._logger.logSuccess);
     emitter.on(EventType.MOVE_FAILING, self._logger.logError);
   })();

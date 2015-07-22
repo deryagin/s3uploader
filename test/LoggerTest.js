@@ -18,10 +18,32 @@ describe('S3Uploader_LoggerTest', function () {
     _output = '';
   });
 
+  it('logStart() outputs ISO8601 date, "START" substring', function () {
+    var fixture = new StreamFixture(process.stdout);
+
+    fixture.capture(saveOutput);
+    _logger.logStart();
+    fixture.release();
+
+    assert.match(_output, ISO8601);
+    assert.include(_output, 'START');
+  });
+
+  it('logStop() outputs ISO8601 date, "STOP" substring', function () {
+    var fixture = new StreamFixture(process.stdout);
+
+    fixture.capture(saveOutput);
+    _logger.logStop();
+    fixture.release();
+
+    assert.match(_output, ISO8601);
+    assert.include(_output, 'STOP');
+  });
+
   it('logSuccess() outputs ISO8601 date, "SUCCESS" substring, and "from", "to" parameters', function () {
     var fixture = new StreamFixture(process.stdout);
 
-    fixture.capture(onWrite);
+    fixture.capture(saveOutput);
     _logger.logSuccess('fromURI', 'toURI');
     fixture.release();
 
@@ -36,7 +58,7 @@ describe('S3Uploader_LoggerTest', function () {
     var message = 'any error message';
     var error = new Error(message);
 
-    fixture.capture(onWrite);
+    fixture.capture(saveOutput);
     _logger.logError(error, 'fromURI', 'toURI');
     fixture.release();
 
@@ -47,7 +69,7 @@ describe('S3Uploader_LoggerTest', function () {
     assert.include(_output, message);
   });
 
-  function onWrite(string) {
+  function saveOutput(string) {
     _output += string;
     return false;
   }

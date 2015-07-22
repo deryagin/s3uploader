@@ -5,6 +5,22 @@ function S3Uploader_Logger() {
   var self = this;
 
   /**
+   * @see {S3Uploader_EventService.emitServiceStartEvent}
+   * @listens {S3Uploader_EventType.SERVICE_START}
+   */
+  self.logStart = function serviceStart() {
+    console.log('%s SERVICE START...', new Date().toISOString());
+  };
+
+  /**
+   * @see {S3Uploader_EventService.emitServiceStopEvent}
+   * @listens {S3Uploader_EventType.SERVICE_STOP}
+   */
+  self.logStop = function serviceStart() {
+    console.log('%s SERVICE STOP...', new Date().toISOString());
+  };
+
+  /**
    * @see {S3Uploader_EventService.emitMoveSucceedEvent}
    * @listens {S3Uploader_EventType.MOVE_SUCCEED}
    */
