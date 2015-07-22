@@ -10,11 +10,6 @@ function S3Uploader_EventService() {
   /** @type {events.EventEmitter} */
   self._emitter = new EventEmitter();
 
-  //self._emitter.emit = function loggedEmit(eventName) {
-  //  console.log(eventName);
-  //  EventEmitter.prototype.emit.apply(self._emitter, arguments);
-  //};
-
   /**
    * Позволяет подписаться на какое-либо событие.
    *
