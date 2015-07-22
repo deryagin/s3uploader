@@ -21,6 +21,23 @@ describe('S3Uploader_EventService', function () {
     assert.deepEqual(returned, _emitter);
   });
 
+  it('emit() fires event and pass all parameters if event type was valid', function (done) {
+    _emitter.on(EventType.SERVICE_START, function (firstParam, secondParam) {
+      assert.equal(firstParam, 'firstParam');
+      assert.equal(secondParam, 'secondParam');
+      done();
+    });
+    _emitter.emit(EventType.SERVICE_START, 'firstParam', 'secondParam');
+  });
+
+  it('emit() throws Error if event type was not valid', function (done) {
+    var invalidCall = function invalidCall() {
+      _emitter.emit('bad type', 'firstParam', 'secondParam');
+    };
+    assert.throw(invalidCall, Error);
+    done();
+  });
+
   it('emitServiceStartEvent() emits {EventType.SERVICE_START} event', function (done) {
     _emitter.on(EventType.SERVICE_START, function () {
       done();
