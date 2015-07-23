@@ -10,7 +10,7 @@ function S3Uploader_LimitedQueue(emitter, config) {
 
   var self = this;
 
-  /** @type {tasks-queue.TaskQueue} */
+  /** @type {TaskQueue} */
   self._taskQueue = new TaskQueue();
 
   /** @type {{localPath: 'String', fsStats: 'fs.Stats'}} - контекст текущего, обрабатываемого события. */
