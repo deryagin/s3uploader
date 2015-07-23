@@ -10,17 +10,16 @@ function S3Uploader_FileWatcher(emitter, config) {
 
   var self = this;
 
-  /** @type {chokidar.FSWatcher} */
-  var _fsWatcher = new FSWatcher(config.options);
+  /** @type {FSWatcher} */
+  self._fsWatcher = new FSWatcher(config.options);
 
   /**
    * @see {S3Uploader_EventService.emitServiceStartEvent}
    * @listens {S3Uploader_EventType.SERVICE_START}
    */
   self.startWatching = function startWatching() {
-    // todo: решить проблему, почему не резолвится?
-    _fsWatcher.add(config.path);
-    _fsWatcher.on('add', emitter.emitEmergedFileEvent);
+    self._fsWatcher.add(config.path);
+    self._fsWatcher.on('add', emitter.emitEmergedFileEvent);
   };
 
   /**
@@ -28,6 +27,7 @@ function S3Uploader_FileWatcher(emitter, config) {
    * @listens {S3Uploader_EventType.SERVICE_STOP}
    */
   self.stopWatching = function stopWatching() {
-    _fsWatcher.unwatch(config.path);
+    self._fsWatcher.unwatch(config.path);
+    self._fsWatcher.removeListener('add', emitter.emitEmergedFileEvent);
   };
 }

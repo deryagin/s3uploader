@@ -6,7 +6,7 @@
   "scripts": {
     "debug": "node-debug --save-live-edit=true --web-host=`hostname` index.js",
     "test": "./node_modules/mocha/bin/mocha --require=./global.js --require=./loader.js --timeout=100 --check-leaks",
-    "cover": "istanbul cover --config=./test/istanbul.yml node_modules/mocha/bin/_mocha -- --reporter progress"
+    "cover": "istanbul cover --config=./test/istanbul.yml node_modules/mocha/bin/_mocha -- -R dot"
   },
   "s3uploader": {
     "autoload": {
