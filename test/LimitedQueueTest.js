@@ -34,10 +34,10 @@ describe('S3Uploader_LimitedQueue', function () {
     assert.equal('fsStats', task._data.fsStats);
   });
 
-  it('addFileToQueue() followed by firing "EventType.MOVE_NEEDED" after "defaultInterval" time later', function () {
+  it('addFileToQueue() followed by firing "EventType.MOVE_NEEDED" after "defaultInterval" time later', function (done) {
     var startTimestamp = Date.now();
     _emitter.on(EventType.MOVE_NEEDED, function checkInterval() {
-      assert.isTrue(_config.defaultInterval < Date.now() - startTimestamp);
+      assert.isTrue(_config.defaultInterval <= Date.now() - startTimestamp);
       _queue.speedUpProcessing();
       done();
     });
