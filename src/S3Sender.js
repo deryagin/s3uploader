@@ -14,14 +14,14 @@ function S3Uploader_S3Sender(emitter, config) {
   var self = this;
 
   /** @type {knox.Client} */ //todo: почему не резолввится?
-  var _s3Client = knox.createClient(config);
+  self._s3Client = knox.createClient(config);
 
   /**
    * @see {S3Uploader_EventService.emitMoveNeededEvent}
    * @listens {S3Uploader_EventType.MOVE_NEEDED}
    */
   self.moveToStore = function moveToStore(localPath, fsStats) {
-    var s3FilePath = buildS3SrotePath(localPath);
+    var s3FilePath = self.buildS3SrotePath(localPath);
     var s3StoreRequest = createS3StoreRequest(s3FilePath, fsStats.size);
     var s3ResponseHandler = createS3ResponseHandler(localPath, s3StoreRequest.url);
     s3StoreRequest.on('response', s3ResponseHandler);
@@ -31,12 +31,12 @@ function S3Uploader_S3Sender(emitter, config) {
   /**
    * @todo: вынести в конфиг
    */
-  function buildS3SrotePath(filePath) {
+  self.buildS3SrotePath = function buildS3SrotePath(filePath) {
     var fileParts = path.basename(filePath).split('_');
     var vpbxId = fileParts[0];
     var fileName = fileParts[1];
     return '/vpbx/' + vpbxId + '/records/' + fileName;
-  }
+  };
 
   function createS3StoreRequest(storePath, fileSize) {
     // Заголовок Content-Disposition, как и другие, сохранится
@@ -44,7 +44,7 @@ function S3Uploader_S3Sender(emitter, config) {
     // заголовок будет добавляться в респонз при скачивании
     // файла из CEPH по прямому линку. Content-Disposition нужен,
     // чтобы браузер не открывал файл (mp3), а предлагал его сохранить.
-    return _s3Client.put(storePath, {
+    return self._s3Client.put(storePath, {
       'Content-Length': fileSize,
       'Content-Type': 'audio/mpeg',
       'Content-Disposition': 'attachment; filename=' + path.basename(storePath)

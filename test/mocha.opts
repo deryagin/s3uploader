@@ -1,4 +1,4 @@
 --require=./global.js
 --require=./loader.js
---timeout=100
---check-leaks
+--timeout=2000ms
+--slow=1000ms
