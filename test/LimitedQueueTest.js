@@ -4,7 +4,7 @@ var EventType = s3uploader.require('S3Uploader_EventType');
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
-describe('S3Uploader_LimitedQueue', function () {
+describe('S3Uploader_LimitedQueueTest', function () {
 
   /** @type {S3Uploader_LimitedQueue} */
   var _queue = null;
@@ -35,6 +35,7 @@ describe('S3Uploader_LimitedQueue', function () {
   });
 
   it('addFileToQueue() followed by firing "EventType.MOVE_NEEDED" after "defaultInterval" time later', function (done) {
+    // todo: заюзать sinon.useFakeTimers()
     var startTimestamp = Date.now();
     _emitter.on(EventType.MOVE_NEEDED, function checkInterval() {
       assert.isTrue(_config.defaultInterval <= Date.now() - startTimestamp);

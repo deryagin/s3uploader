@@ -10,7 +10,7 @@ var rmdir = require('rimraf');
 var S3rver = require('s3rver');
 var assert = require('chai').assert;
 
-describe('S3Uploader_S3Sender', function () {
+describe('S3Uploader_S3SenderTest', function () {
 
   /** @type {S3Uploader_TestHarness} */
   var _harness = new TestHarness();
@@ -50,6 +50,7 @@ describe('S3Uploader_S3Sender', function () {
   });
 
   after(function () {
+    // todo: разобраться как выключить _s3server
     rmdir.sync('/tmp/s3server/');
   });
 
@@ -70,6 +71,14 @@ describe('S3Uploader_S3Sender', function () {
     var fsStats = fs.statSync(localPath);
     _harness.setExpectedEvent(emitter, EventType.MOVE_FAILING, 100, done);
     s3sender.moveToStore(localPath, fsStats);
+  });
+
+  xit('moveToStore() removes the source file when success', function () {
+
+  });
+
+  xit('moveToStore() does not remove the source file when fail', function () {
+
   });
 
   it('buildS3SrotePath() returns /vpbx/{vpbxId}/records/{fileName} formed string', function () {

@@ -2,7 +2,7 @@ var EventService = s3uploader.require('S3Uploader_EventService');
 var EventType = s3uploader.require('S3Uploader_EventType');
 var assert = require('chai').assert;
 
-describe('S3Uploader_EventService', function () {
+describe('S3Uploader_EventServiceTest', function () {
 
   /** @type {S3Uploader_EventService} */
   var _emitter = null;
@@ -38,6 +38,7 @@ describe('S3Uploader_EventService', function () {
     done();
   });
 
+  // todo: переписать с использованием S3Uploader_TestHarness.setExpectedEvent() и др. методы тоже
   it('emitServiceStartEvent() emits {EventType.SERVICE_START} event', function (done) {
     _emitter.on(EventType.SERVICE_START, function () {
       done();
