@@ -1,14 +1,22 @@
 var S3Sender = s3uploader.require('S3Uploader_S3Sender');
 var EventService = s3uploader.require('S3Uploader_EventService');
 var EventType = s3uploader.require('S3Uploader_EventType');
+var TestHarness = s3uploader.require('S3Uploader_TestHarness');
 
 var fs = require('fs');
 var util = require('util');
 var mkdirp = require('mkdirp');
 var rmdir = require('rimraf');
 var S3rver = require('s3rver');
+var assert = require('chai').assert;
 
 describe('S3Uploader_S3Sender', function () {
+
+  /** @type {S3Uploader_TestHarness} */
+  var _harness = new TestHarness();
+
+  /** @type {S3rver} */
+  var _s3server = new S3rver();
 
   /** @type {S3Uploader_Configuration.knox} */
   var _config = {
@@ -22,8 +30,7 @@ describe('S3Uploader_S3Sender', function () {
 
   before(function (done) {
     mkdirp.sync('/tmp/s3server/' + _config.bucket);
-    var s3server = new S3rver();
-    s3server.setHostname('localhost')
+    _s3server.setHostname('localhost')
       .setPort(10001)
       .setDirectory('/tmp/s3server')
       .setSilent(true)
@@ -51,7 +58,7 @@ describe('S3Uploader_S3Sender', function () {
     var s3sender = new S3Sender(emitter, _config);
     var localPath = '/tmp/3_430824840.466840.mp3';
     var fsStats = fs.statSync(localPath);
-    setExpectedEvent(emitter, EventType.MOVE_SUCCEED, 100, done);
+    _harness.setExpectedEvent(emitter, EventType.MOVE_SUCCEED, 100, done);
     s3sender.moveToStore(localPath, fsStats);
   });
 
@@ -61,35 +68,14 @@ describe('S3Uploader_S3Sender', function () {
     var s3sender = new S3Sender(emitter, _config);
     var localPath = '/tmp/3_430824840.466840.mp3';
     var fsStats = fs.statSync(localPath);
-    setExpectedEvent(emitter, EventType.MOVE_FAILING, 100, done);
+    _harness.setExpectedEvent(emitter, EventType.MOVE_FAILING, 100, done);
     s3sender.moveToStore(localPath, fsStats);
   });
 
   it('buildS3SrotePath() returns /vpbx/{vpbxId}/records/{fileName} formed string', function () {
-
+    var emitter = new EventService();
+    var s3sender = new S3Sender(emitter, _config);
+    var s3FilePath = s3sender.buildS3SrotePath('/tmp/3_430824840.466840.mp3');
+    assert.equal(s3FilePath, '/vpbx/3/records/430824840.466840.mp3')
   });
-
-  // todo: вынести во что-то отдельное типа Harness.js
-  /**
-   *
-   * @param {EventEmitter} emitter
-   * @param {String} eventName
-   * @param {Number} [timeout=1000]
-   * @param {Function} callback
-   */
-  function setExpectedEvent(emitter, eventName, timeout, callback) {
-    var wasEventFired = false;
-    timeout = timeout || 1000;
-
-    emitter.on(eventName, function setWasEventFired() {
-      wasEventFired = true;
-      callback();
-    });
-
-    setTimeout(function () {
-      if (!wasEventFired) {
-        callback(new Error(util.format('event "%s" was not fired', eventName)));
-      }
-    }, timeout);
-  }
 });

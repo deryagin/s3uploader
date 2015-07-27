@@ -13,7 +13,7 @@ function S3Uploader_S3Sender(emitter, config) {
 
   var self = this;
 
-  /** @type {knox.Client} */ //todo: почему не резолввится?
+  /** @type {knox.Client} */
   self._s3Client = knox.createClient(config);
 
   /**
@@ -28,9 +28,6 @@ function S3Uploader_S3Sender(emitter, config) {
     fs.createReadStream(localPath).pipe(s3StoreRequest);
   };
 
-  /**
-   * @todo: вынести в конфиг
-   */
   self.buildS3SrotePath = function buildS3SrotePath(filePath) {
     var fileParts = path.basename(filePath).split('_');
     var vpbxId = fileParts[0];
@@ -55,8 +52,6 @@ function S3Uploader_S3Sender(emitter, config) {
     return function s3ResponseHandler(s3Response) {
       if (200 == s3Response.statusCode) {
         emitter.emitMoveSucceedEvent(localPath, s3Url);
-
-        // todo: тут не должно выполнятся реальной работы, а должно всего лишь вызываться emitMoveSucceedEvent или emitMoveFailingEvent
         return fs.unlink(localPath);
       }
 
