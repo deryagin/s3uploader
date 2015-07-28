@@ -2,7 +2,7 @@ var EventService = s3uploader.require('S3Uploader_EventService');
 var EventType = s3uploader.require('S3Uploader_EventType');
 var assert = require('chai').assert;
 
-describe('S3Uploader_EventServiceTest', function () {
+describe('S3Uploader_EventService', function () {
 
   /** @type {S3Uploader_EventService} */
   var _emitter = null;

@@ -2,7 +2,7 @@ var Logger = s3uploader.require('S3Uploader_Logger');
 var StreamFixture = require('fixture-stdout');
 var assert = require('chai').assert;
 
-describe('S3Uploader_LoggerTest', function () {
+describe('S3Uploader_Logger', function () {
 
   /** @type {S3Uploader_Logger} */
   var _logger = null;

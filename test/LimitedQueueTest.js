@@ -4,7 +4,7 @@ var EventType = s3uploader.require('S3Uploader_EventType');
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
-describe('S3Uploader_LimitedQueueTest', function () {
+describe('S3Uploader_LimitedQueue', function () {
 
   /** @type {S3Uploader_LimitedQueue} */
   var _queue = null;

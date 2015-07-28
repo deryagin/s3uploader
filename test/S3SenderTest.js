@@ -10,7 +10,7 @@ var rmdir = require('rimraf');
 var S3rver = require('s3rver');
 var assert = require('chai').assert;
 
-describe('S3Uploader_S3SenderTest', function () {
+describe('S3Uploader_S3Sender', function () {
 
   /** @type {S3Uploader_TestHarness} */
   var _harness = new TestHarness();

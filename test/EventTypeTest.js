@@ -1,7 +1,7 @@
 var EventType = s3uploader.require('S3Uploader_EventType');
 var assert = require('chai').assert;
 
-describe('S3Uploader_EventTypeTest', function () {
+describe('S3Uploader_EventType', function () {
 
   it('isValid() returns TRUE, if EventType was valid', function () {
     assert.isTrue(EventType.isValid(EventType.SERVICE_START));
