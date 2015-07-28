@@ -6,6 +6,9 @@ function S3Uploader_TestHarness() {
   var self = this;
 
   /**
+   * Это метод удобно использовать там, где внутри callback не нужно что-то проверять.
+   * А достаточно всего лишь передать done: _harness.setExpectedEvent(emitter, EventType.MOVE_SUCCEED, 100, done);
+   *
    * @param {EventEmitter} emitter
    * @param {String} eventName
    * @param {Number} [timeout=1000]

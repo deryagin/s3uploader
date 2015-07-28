@@ -46,18 +46,20 @@ describe('S3Uploader_LimitedQueueTest', function () {
   });
 
   it('speedUpProcessing() resets defaultInterval to the initial value and finish event handling', function () {
-    _queue._taskQueue.setMinTime = sinon.spy();
-    _queue._jinn = {done: sinon.spy()};
+    _queue._taskQueue.setMinTime = sinon.stub();
+    _queue._jinn = {done: sinon.stub()};
     _queue.speedUpProcessing();
     assert(_queue._taskQueue.setMinTime.calledWith(_config.defaultInterval));
     assert(_queue._jinn.done.called);
   });
 
-  it('slowDownProcessing() insrease defaultInterval and finish event handling', function () {
-    _queue._taskQueue.setMinTime = sinon.spy();
-    _queue._jinn = {done: sinon.spy()};
+  it('slowDownProcessing() insrease defaultInterval and push the task into the queue beginning', function () {
+    _queue._taskQueue.setMinTime = sinon.stub();
+    _queue._taskQueue.pushTask = sinon.stub();
+    _queue._jinn = {done: sinon.stub()};
     _queue.slowDownProcessing();
     assert(_queue._taskQueue.setMinTime.calledWith(_config.defaultInterval * _config.intervalMultiplier));
     assert(_queue._jinn.done.called);
+    assert(_queue._taskQueue.pushTask.calledWith('file:added'));
   });
 });
