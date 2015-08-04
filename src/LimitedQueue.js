@@ -10,8 +10,14 @@ function S3Uploader_LimitedQueue(emitter, config) {
 
   var self = this;
 
+  /** @type {S3Uploader_EventService} */
+  self._emitter = emitter;
+
+  /** @type {S3Uploader_Configuration} */
+  self._config = config;
+
   /** @type {TaskQueue} */
-  self._taskQueue = new TaskQueue();
+  self._taskQueue = null;
 
   /** @type {{localPath: 'String', fsStats: 'fs.Stats'}} - контекст текущего, обрабатываемого события. */
   self._eventContext = null;
@@ -19,18 +25,24 @@ function S3Uploader_LimitedQueue(emitter, config) {
   /** @type {Jinn} - вызов jinn.done() завершает обработку текущего события https://github.com/tutukin/tasks-queue */
   self._jinn = null;
 
-  (function _initialize() {
+  self._populate = function _populate() {
+    self._taskQueue = new TaskQueue();
     self._taskQueue.setMinTime(config.defaultInterval);
     self._taskQueue.noautostop();
     self._taskQueue.execute();
-  })();
+  };
 
-  (function _eventness() {
+  self._eventness = function _eventness() {
     self._taskQueue.on('file:added', function raiseMoveNeededEvent(jinn, eventContext) {
       self._jinn = jinn;
       self._eventContext = eventContext;
       emitter.emitMoveNeededEvent(eventContext.localPath, eventContext.fsStats);
     })
+  };
+
+  (S3Uploader_LimitedQueue._initialize || function _initialize() {
+    self._populate();
+    self._eventness();
   })();
 
   /**

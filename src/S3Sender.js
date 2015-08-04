@@ -13,8 +13,22 @@ function S3Uploader_S3Sender(emitter, config) {
 
   var self = this;
 
+  /** @type {S3Uploader_EventService} */
+  self._emitter = emitter;
+
+  /** @type {S3Uploader_Configuration} */
+  self._config = config;
+
   /** @type {knox.Client} */
-  self._s3Client = knox.createClient(config);
+  self._s3Client = null;
+
+  self._populate = function _populate() {
+    self._s3Client = knox.createClient(config);
+  };
+
+  (S3Uploader_S3Sender._initialize || function _initialize() {
+    self._populate();
+  })();
 
   /**
    * @see {S3Uploader_EventService.emitMoveNeededEvent}

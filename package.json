@@ -22,11 +22,12 @@
     "mocha": "^2.2.5",
     "chai": "^3.0.0",
     "sinon": "^1.15.4",
-    "istanbul": "^0.3.17",
-    "fixture-stdout": "^0.2.1",
+    "mockery" : "^1.4.0",
     "mock-fs": "^3.0.0",
+    "s3rver" : "^0.0.5",
+    "fixture-stdout": "^0.2.1",
+    "istanbul": "^0.3.17",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.4.2",
-    "s3rver" : "^0.0.5"
+    "rimraf": "^2.4.2"
   }
 }
