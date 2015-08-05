@@ -27,15 +27,6 @@ describe('S3Uploader_Application', function () {
   var _config = null;
 
   beforeEach(function () {
-    // [x] Загрузить внешние зависимости для Application.
-    // [x] Отключив у зависимостей инициализацию (используюя DependencyConstructor._initialize = sinon.stub()),
-        // [x] создать стабы и на основе этих зависимостей sinon.stub(new DependencyConstructor()).
-        // [x] после создания стаба не забыть вернуть DependencyConstructor._initialize = undefined;
-    // [x] Прописать в mockery чтобы вместо зависимостей грузились полученные на их основе стабы!
-    // Инстанцировать Application и выполнить тесты, проверяющие, что все зависимости были установлены, плюс тест для метода start()
-    // Это можно проверять по используюя сами свойства application._fileWatcher, application._limitedQueue итп.
-    // А можно проверять что были вызваны методы _initialize, _eventness, _logging. Но первый способ более надежный.
-
     FileWatcher._initialize = sinon.stub();
     LimitedQueue._initialize = sinon.stub();
     S3Sender._initialize = sinon.stub();
