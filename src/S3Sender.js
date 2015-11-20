@@ -39,6 +39,7 @@ function S3Uploader_S3Sender(emitter, config) {
     var s3StoreRequest = createS3StoreRequest(s3FilePath, fsStats.size);
     var s3ResponseHandler = createS3ResponseHandler(localPath, s3StoreRequest.url);
     s3StoreRequest.on('response', s3ResponseHandler);
+    // todo: подумать про обработку ошибок во время стриминга ФС
     fs.createReadStream(localPath).pipe(s3StoreRequest);
   };
 
