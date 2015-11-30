@@ -15,5 +15,5 @@ S3Uploader_EventType.MOVE_SUCCEED = 'MOVE_SUCCEED';
 S3Uploader_EventType.MOVE_FAILING = 'MOVE_FAILING';
 
 S3Uploader_EventType.isValid = function isValid(eventType) {
-  return (S3Uploader_EventType.hasOwnProperty(eventType) ? true : false);
+  return S3Uploader_EventType.hasOwnProperty(eventType);
 };
