@@ -1,12 +1,12 @@
 var TaskQueue = require('tasks-queue');
 
-module.exports = S3Uploader_LimitedQueue;
+module.exports = S3Uploader_FastWay_LimitedQueue;
 
 /**
- * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Configuration.tasks_queue} config
+ * @param {S3Uploader_FastWay_EventService} emitter
+ * @param {S3Uploader_FastWay_Configuration.tasks_queue} config
  */
-function S3Uploader_LimitedQueue(emitter, config) {
+function S3Uploader_FastWay_LimitedQueue(emitter, config) {
 
   var self = this;
 
@@ -33,18 +33,10 @@ function S3Uploader_LimitedQueue(emitter, config) {
     })
   })();
 
-  /**
-   * @see {S3Uploader_EventService.emitEmergedFileEvent}
-   * @listens {S3Uploader_EventType.EMERGED_FILE}
-   */
   self.addFileToQueue = function addFileToQueue(localPath, fsStats) {
     self._taskQueue.pushTask('file:added', { 'localPath': localPath, 'fsStats': fsStats })
   };
 
-  /**
-   * @see {S3Uploader_EventService.emitMoveSucceedEvent}
-   * @listens {S3Uploader_EventType.MOVE_SUCCEED}
-   */
   self.speedUpProcessing = function speedUpProcessing() {
     // если все ок, то сбрасываем интервал ожидания обработки следующего события и
     // завершаем обработку текущего события вызовом _jinn.done()
@@ -52,10 +44,6 @@ function S3Uploader_LimitedQueue(emitter, config) {
     self._jinn.done();
   };
 
-  /**
-   * @see {S3Uploader_EventService.emitMoveFailingEvent}
-   * @listens {S3Uploader_EventType.MOVE_FAILING}
-   */
   self.slowDownProcessing = function slowDownProcessing() {
     // поскольку произошла ошибка, увеличиваем интервал между попытками
     var retryInterval = config.intervalMultiplier * self._taskQueue.getMinTime();
