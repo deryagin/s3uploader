@@ -10,7 +10,7 @@
   },
   "s3uploader": {
     "autoload": {
-      "S3Uploader": "src/"
+      "S3Uploader_XunitWay": "src/"
     }
   },
   "dependencies": {
