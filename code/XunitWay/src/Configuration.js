@@ -1,6 +1,6 @@
-module.exports = S3Uploader_Configuration;
+module.exports = S3Uploader_XunitWay_Configuration;
 
-function S3Uploader_Configuration() {
+function S3Uploader_XunitWay_Configuration() {
 
   var self = this;
 

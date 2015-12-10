@@ -1,10 +1,10 @@
-var Logger = s3uploader.require('S3Uploader_Logger');
+var Logger = s3uploader.require('S3Uploader_XunitWay_Logger');
 var StreamFixture = require('fixture-stdout');
 var assert = require('chai').assert;
 
-describe('S3Uploader_Logger', function () {
+describe('S3Uploader_XunitWay_Logger', function () {
 
-  /** @type {S3Uploader_Logger} */
+  /** @type {S3Uploader_XunitWay_Logger} */
   var _logger = null;
 
   /** @type {String} - данные, выводимые в stdout/stderr в тестах */

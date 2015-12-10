@@ -1,15 +1,15 @@
-var FileWatcher = s3uploader.require('S3Uploader_FileWatcher');
-var EventService = s3uploader.require('S3Uploader_EventService');
+var FileWatcher = s3uploader.require('S3Uploader_XunitWay_FileWatcher');
+var EventService = s3uploader.require('S3Uploader_XunitWay_EventService');
 var sinon = require('sinon');
 var assert = require('chai').assert;
 
 // todo: заюзать mock-fs. Сделать тест интеграционным.
-describe('S3Uploader_FileWatcher', function () {
+describe('S3Uploader_XunitWay_FileWatcher', function () {
 
-  /** @type {S3Uploader_FileWatcher} */
+  /** @type {S3Uploader_XunitWay_FileWatcher} */
   var _fileWatcher = null;
 
-  /** @type {S3Uploader_EventService} */
+  /** @type {S3Uploader_XunitWay_EventService} */
   var _emitterStub = null;
 
   var _config = {

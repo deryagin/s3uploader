@@ -3,20 +3,20 @@ var path = require('path');
 var util = require('util');
 var knox = require('knox');
 
-module.exports = S3Uploader_S3Sender;
+module.exports = S3Uploader_XunitWay_S3Sender;
 
 /**
- * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Configuration.knox} config
+ * @param {S3Uploader_XunitWay_EventService} emitter
+ * @param {S3Uploader_XunitWay_Configuration.knox} config
  */
-function S3Uploader_S3Sender(emitter, config) {
+function S3Uploader_XunitWay_S3Sender(emitter, config) {
 
   var self = this;
 
-  /** @type {S3Uploader_EventService} */
+  /** @type {S3Uploader_XunitWay_EventService} */
   self._emitter = emitter;
 
-  /** @type {S3Uploader_Configuration} */
+  /** @type {S3Uploader_XunitWay_Configuration} */
   self._config = config;
 
   /** @type {knox.Client} */
@@ -26,13 +26,13 @@ function S3Uploader_S3Sender(emitter, config) {
     self._s3Client = knox.createClient(config);
   };
 
-  (S3Uploader_S3Sender._initialize || function _initialize() {
+  (S3Uploader_XunitWay_S3Sender._initialize || function _initialize() {
     self._populate();
   })();
 
   /**
-   * @see {S3Uploader_EventService.emitMoveNeededEvent}
-   * @listens {S3Uploader_EventType.MOVE_NEEDED}
+   * @see {S3Uploader_XunitWay_EventService.emitMoveNeededEvent}
+   * @listens {S3Uploader_XunitWay_EventType.MOVE_NEEDED}
    */
   self.moveToStore = function moveToStore(localPath, fsStats) {
     var s3FilePath = self.buildS3SrotePath(localPath);

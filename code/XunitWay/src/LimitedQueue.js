@@ -1,19 +1,19 @@
 var TaskQueue = require('tasks-queue');
 
-module.exports = S3Uploader_LimitedQueue;
+module.exports = S3Uploader_XunitWay_LimitedQueue;
 
 /**
- * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Configuration.tasks_queue} config
+ * @param {S3Uploader_XunitWay_EventService} emitter
+ * @param {S3Uploader_XunitWay_Configuration.tasks_queue} config
  */
-function S3Uploader_LimitedQueue(emitter, config) {
+function S3Uploader_XunitWay_LimitedQueue(emitter, config) {
 
   var self = this;
 
-  /** @type {S3Uploader_EventService} */
+  /** @type {S3Uploader_XunitWay_EventService} */
   self._emitter = emitter;
 
-  /** @type {S3Uploader_Configuration} */
+  /** @type {S3Uploader_XunitWay_Configuration} */
   self._config = config;
 
   /** @type {TaskQueue} */
@@ -40,22 +40,22 @@ function S3Uploader_LimitedQueue(emitter, config) {
     })
   };
 
-  (S3Uploader_LimitedQueue._initialize || function _initialize() {
+  (S3Uploader_XunitWay_LimitedQueue._initialize || function _initialize() {
     self._populate();
     self._eventness();
   })();
 
   /**
-   * @see {S3Uploader_EventService.emitEmergedFileEvent}
-   * @listens {S3Uploader_EventType.EMERGED_FILE}
+   * @see {S3Uploader_XunitWay_EventService.emitEmergedFileEvent}
+   * @listens {S3Uploader_XunitWay_EventType.EMERGED_FILE}
    */
   self.addFileToQueue = function addFileToQueue(localPath, fsStats) {
     self._taskQueue.pushTask('file:added', { 'localPath': localPath, 'fsStats': fsStats })
   };
 
   /**
-   * @see {S3Uploader_EventService.emitMoveSucceedEvent}
-   * @listens {S3Uploader_EventType.MOVE_SUCCEED}
+   * @see {S3Uploader_XunitWay_EventService.emitMoveSucceedEvent}
+   * @listens {S3Uploader_XunitWay_EventType.MOVE_SUCCEED}
    */
   self.speedUpProcessing = function speedUpProcessing() {
     // если все ок, то сбрасываем интервал ожидания обработки следующего события и
@@ -65,8 +65,8 @@ function S3Uploader_LimitedQueue(emitter, config) {
   };
 
   /**
-   * @see {S3Uploader_EventService.emitMoveFailingEvent}
-   * @listens {S3Uploader_EventType.MOVE_FAILING}
+   * @see {S3Uploader_XunitWay_EventService.emitMoveFailingEvent}
+   * @listens {S3Uploader_XunitWay_EventType.MOVE_FAILING}
    */
   self.slowDownProcessing = function slowDownProcessing() {
     // поскольку произошла ошибка, увеличиваем интервал между попытками

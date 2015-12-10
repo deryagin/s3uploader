@@ -1,11 +1,11 @@
-module.exports = S3Uploader_Autoloader;
+module.exports = S3Uploader_XunitWay_Autoloader;
 
 /**
  * @param {String} projectRoot - абсолютный путь к корню проекта
  * @param {String} relativeNsMap - соответствие неймспейсов и относительных путей в ФС
  * @example {"S3Uploader": "src/"}
  */
-function S3Uploader_Autoloader(projectRoot, relativeNsMap) {
+function S3Uploader_XunitWay_Autoloader(projectRoot, relativeNsMap) {
 
   var self = this;
 
@@ -38,7 +38,7 @@ function S3Uploader_Autoloader(projectRoot, relativeNsMap) {
    *
    * @param {String} projectRoot - абсолютный путь к корню проекта
    * @param {String} relativeNsMap - соответствие неймспейсов и относительных путей в ФС
-   * @return {S3Uploader_Autoloader}
+   * @return {S3Uploader_XunitWay_Autoloader}
    */
   self.addNamespaces = function addNamespaces(projectRoot, relativeNsMap) {
     for (var namespace in relativeNsMap) {

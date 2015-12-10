@@ -4,32 +4,32 @@ var LimitedQueue = require(s3uploader.ROOTDIR + 'src/LimitedQueue');
 var S3Sender = require(s3uploader.ROOTDIR + 'src/S3Sender');
 var Logger = require(s3uploader.ROOTDIR + 'src/Logger');
 
-module.exports = S3Uploader_Application;
+module.exports = S3Uploader_XunitWay_Application;
 
 /**
- * @param {S3Uploader_EventService} emitter
- * @param {S3Uploader_Configuration} config
+ * @param {S3Uploader_XunitWay_EventService} emitter
+ * @param {S3Uploader_XunitWay_Configuration} config
  */
-function S3Uploader_Application(emitter, config) {
+function S3Uploader_XunitWay_Application(emitter, config) {
 
   var self = this;
 
-  /** @type {S3Uploader_EventService} */
+  /** @type {S3Uploader_XunitWay_EventService} */
   self._emitter = emitter;
 
-  /** @type {S3Uploader_Configuration} */
+  /** @type {S3Uploader_XunitWay_Configuration} */
   self._config = config;
 
-  /** @type {S3Uploader_FileWatcher} */
+  /** @type {S3Uploader_XunitWay_FileWatcher} */
   self._fileWatcher = null;
 
-  /** @type {S3Uploader_LimitedQueue} */
+  /** @type {S3Uploader_XunitWay_LimitedQueue} */
   self._limitedQueue = null;
 
-  /** @type {S3Uploader_S3Sender} */
+  /** @type {S3Uploader_XunitWay_S3Sender} */
   self._s3Sender = null;
 
-  /** @type {S3Uploader_Logger} */
+  /** @type {S3Uploader_XunitWay_Logger} */
   self._logger = null;
 
   self._populate = function _populate() {
@@ -55,7 +55,7 @@ function S3Uploader_Application(emitter, config) {
     emitter.on(EventType.MOVE_FAILING, self._logger.logError);
   };
 
-  (S3Uploader_Application._initialize || function _initialize() {
+  (S3Uploader_XunitWay_Application._initialize || function _initialize() {
     self._populate();
     self._eventness();
     self._logging();

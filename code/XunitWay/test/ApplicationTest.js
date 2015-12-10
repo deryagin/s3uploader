@@ -10,21 +10,21 @@ var mockery = require('mockery');
 var sinon = require('sinon');
 var assert = require('chai').assert;
 
-describe('S3Uploader_Application', function () {
+describe('S3Uploader_XunitWay_Application', function () {
 
-  /** @constructor {S3Uploader_Application} */
+  /** @constructor {S3Uploader_XunitWay_Application} */
   var _Application = null;
 
-  /** @type {S3Uploader_Application} */
+  /** @type {S3Uploader_XunitWay_Application} */
   var _application = null;
 
-  /** @type {S3Uploader_EventService} */
+  /** @type {S3Uploader_XunitWay_EventService} */
   var _emitter = null;
 
   /** @type {Object} */
   var _config = null;
 
-  /** @type {S3Uploader_TestHarness} */
+  /** @type {S3Uploader_XunitWay_TestHarness} */
   var _testHarness = new TestHarness();
 
   before(function () {

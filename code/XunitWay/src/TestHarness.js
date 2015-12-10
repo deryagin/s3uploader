@@ -1,7 +1,7 @@
-module.exports = S3Uploader_TestHarness;
+module.exports = S3Uploader_XunitWay_TestHarness;
 
 // todo: очевидно этому классу тут не место
-function S3Uploader_TestHarness() {
+function S3Uploader_XunitWay_TestHarness() {
 
   var self = this;
 

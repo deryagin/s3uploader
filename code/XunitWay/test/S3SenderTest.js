@@ -1,7 +1,7 @@
-var S3Sender = s3uploader.require('S3Uploader_S3Sender');
-var EventService = s3uploader.require('S3Uploader_EventService');
-var EventType = s3uploader.require('S3Uploader_EventType');
-var TestHarness = s3uploader.require('S3Uploader_TestHarness');
+var S3Sender = s3uploader.require('S3Uploader_XunitWay_S3Sender');
+var EventService = s3uploader.require('S3Uploader_XunitWay_EventService');
+var EventType = s3uploader.require('S3Uploader_XunitWay_EventType');
+var TestHarness = s3uploader.require('S3Uploader_XunitWay_TestHarness');
 
 var fs = require('fs');
 var util = require('util');
@@ -10,15 +10,15 @@ var rmdir = require('rimraf');
 var S3rver = require('s3rver');
 var assert = require('chai').assert;
 
-describe('S3Uploader_S3Sender', function () {
+describe('S3Uploader_XunitWay_S3Sender', function () {
 
-  /** @type {S3Uploader_TestHarness} */
+  /** @type {S3Uploader_XunitWay_TestHarness} */
   var _harness = new TestHarness();
 
   /** @type {S3rver} */
   var _s3server = new S3rver();
 
-  /** @type {S3Uploader_Configuration.knox} */
+  /** @type {S3Uploader_XunitWay_Configuration.knox} */
   var _config = {
     key: 'IJKA0CM19YQRCZZUP1UJ',
     secret: 'MRjqxJcPmKrm6aMPzCn8DErX3bCuY+5DZLjMhGzK',

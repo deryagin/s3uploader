@@ -1,15 +1,15 @@
-var LimitedQueue = s3uploader.require('S3Uploader_LimitedQueue');
-var EventService = s3uploader.require('S3Uploader_EventService');
-var EventType = s3uploader.require('S3Uploader_EventType');
+var LimitedQueue = s3uploader.require('S3Uploader_XunitWay_LimitedQueue');
+var EventService = s3uploader.require('S3Uploader_XunitWay_EventService');
+var EventType = s3uploader.require('S3Uploader_XunitWay_EventType');
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
-describe('S3Uploader_LimitedQueue', function () {
+describe('S3Uploader_XunitWay_LimitedQueue', function () {
 
-  /** @type {S3Uploader_LimitedQueue} */
+  /** @type {S3Uploader_XunitWay_LimitedQueue} */
   var _queue = null;
 
-  /** @type {S3Uploader_EventService} */
+  /** @type {S3Uploader_XunitWay_EventService} */
   var _emitter = null;
 
   /** @type {Object} */
