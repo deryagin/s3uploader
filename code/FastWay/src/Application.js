@@ -26,18 +26,16 @@ function S3Uploader_FastWay_Application(emitter, config) {
   /** @type {S3Uploader_FastWay_Logger} */
   self._logger = new Logger();
 
-  (function _eventness() {
-    emitter.on(EventType.SERVICE_START, self._fileWatcher.startWatching);
-    emitter.on(EventType.EMERGED_FILE, self._limitedQueue.addFileToQueue);
-    emitter.on(EventType.MOVE_NEEDED, self._s3Sender.moveToStore);
-    emitter.on(EventType.MOVE_SUCCEED, self._limitedQueue.speedUpProcessing);
-    emitter.on(EventType.MOVE_FAILING, self._limitedQueue.slowDownProcessing);
-    emitter.on(EventType.SERVICE_STOP, self._fileWatcher.stopWatching);
-    emitter.on(EventType.SERVICE_START, self._logger.logStart);
-    emitter.on(EventType.SERVICE_STOP, self._logger.logStop);
-    emitter.on(EventType.MOVE_SUCCEED, self._logger.logSuccess);
-    emitter.on(EventType.MOVE_FAILING, self._logger.logError);
-  })();
+  emitter.on(EventType.SERVICE_START, self._fileWatcher.startWatching);
+  emitter.on(EventType.EMERGED_FILE, self._limitedQueue.addFileToQueue);
+  emitter.on(EventType.MOVE_NEEDED, self._s3Sender.moveToStore);
+  emitter.on(EventType.MOVE_SUCCEED, self._limitedQueue.speedUpProcessing);
+  emitter.on(EventType.MOVE_FAILING, self._limitedQueue.slowDownProcessing);
+  emitter.on(EventType.SERVICE_STOP, self._fileWatcher.stopWatching);
+  emitter.on(EventType.SERVICE_START, self._logger.logStart);
+  emitter.on(EventType.SERVICE_STOP, self._logger.logStop);
+  emitter.on(EventType.MOVE_SUCCEED, self._logger.logSuccess);
+  emitter.on(EventType.MOVE_FAILING, self._logger.logError);
 
   self.start = function start() {
     emitter.emitServiceStartEvent();
